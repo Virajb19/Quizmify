@@ -14,7 +14,7 @@ export default function UserAccountNav({user} : {user: User}) {
                     <DropdownMenuTrigger>
                         <UserAvatar user={user}/>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className='flex flex-col px-2 py-2 bg-[#171717] gap-1 border border-gray-700 rounded-md' align='end'> 
+                    <DropdownMenuContent className='flex flex-col px-2 py-2 gap-1 border border-gray-700 rounded-md' align='end'> 
                         <div className='flex flex-col p-2'>
                             {user.name && <p className='text-sm'>{user.name}</p>}
                             {user.email && <p className='text-xs text-zinc-500 truncate'>{user.email}</p>}

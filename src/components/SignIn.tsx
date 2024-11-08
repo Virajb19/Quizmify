@@ -50,11 +50,11 @@ export default function SignIn() {
                          <div className="grow w-10 h-[0.05rem] bg-zinc-600"></div>
                    </div>
            
-                   <GithubSignInButton />
+                   <GithubSignInButton text='Sign in with Github'/>
 
                      <div className='flex p-1 gap-1 text-sm'>
                          <p className=''>Don't have an account ?</p>
-                         <Link className='text-green-500 hover:underline hover:underline-offset-2 duration-100' href='/signup'>Sign up</Link>
+                         <Link className='text-blue-500 hover:underline hover:underline-offset-2 duration-100' href='/signup'>Sign up</Link>
                      </div>
                </div>
         </main>
@@ -65,7 +65,7 @@ function Input({text, register}: {text: string, register: any}) {
     const [showPassword,setShowPassword] = useState(false)
 
     return <div className="relative flex flex-col p-1 gap-1 w-full"> 
-      <input {...register(`${text}`)} type={text === 'password' ? (showPassword ? 'text' : 'password') : 'text'} placeholder={text} className="outline-none px-4 py-2 bg-transparent rounded-xl border focus:ring-2 focus:ring-green-600 focus:border-transparent duration-200" />
+      <input {...register(`${text}`)} type={text === 'password' ? (showPassword ? 'text' : 'password') : 'text'} placeholder={text} className="outline-none px-4 py-2 bg-transparent rounded-xl border focus:ring-2 focus:ring-blue-600 focus:border-transparent duration-200" />
       {text === 'password' && <span onClick={() => setShowPassword(!showPassword)} className='absolute p-2 right-2 top-2 cursor-pointer rounded-lg hover:bg-zinc-800 duration-200 text-white'>{showPassword ? <FaRegEyeSlash /> : <FaRegEye />}</span>}
      </div>
 }

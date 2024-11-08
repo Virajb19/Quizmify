@@ -24,11 +24,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body className={lexend.className}>
+    <html lang="en" suppressHydrationWarning={true}>
+      <body className={lexend.className} suppressHydrationWarning={true}>
         <Providers>
          <Toaster position="top-center" richColors/>
-         <NextTopLoader height={4} color="#AAFF00" showSpinner={false}/>
+         <NextTopLoader height={4} color="blue" showSpinner={false} easing="ease"/>
          <Navbar />
          {children}
          </Providers>

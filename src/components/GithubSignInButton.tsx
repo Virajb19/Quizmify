@@ -6,7 +6,7 @@ import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 
-export default function GithubSignInButton() {
+export default function GithubSignInButton({text} : {text: string}) {
 
 const [loading,setLoading] = useState(false)
     
@@ -25,10 +25,10 @@ const [loading,setLoading] = useState(false)
       }}
       disabled={loading}
       whileHover={{ scale: 1.03 }}
-      className={twMerge("flex-center gap-5 w-3/4 rounded-xl border px-4 py-2 mb:text-sm", loading && "cursor-not-allowed text-zinc-600 border-zinc-600")}
+      className={twMerge("flex-center gap-5 w-3/4 rounded-xl border px-4 py-2 mb:text-sm mb:w-[90%]", loading && "cursor-not-allowed text-zinc-600 border-zinc-600")}
     >
-      Sign in with Github
-      <FaGithub className="size-7 text-green-500" />
+       {text}
+      <FaGithub className="size-7 text-blue-500" />
     </motion.button>
   );
 }

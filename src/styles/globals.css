@@ -18,3 +18,13 @@ h2 {
 h3 {
   @apply text-3xl
 }
+
+@font-face {
+  font-family: satoshi;
+  src: url(../fonts/Satoshi-Regular.otf) format("opentype");
+}
+
+body {
+  font-family: satoshi;
+  @apply dark:bg-black
+}

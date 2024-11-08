@@ -9,6 +9,7 @@ import { toast } from 'sonner'
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 import Link from 'next/link';
 import { useSession } from 'next-auth/react'
+import GithubSignInButton from '~/components/GithubSignInButton'
  
 interface SignUpData {
     username: string,
@@ -53,9 +54,18 @@ export default function Signup() {
                             }} type='submit' whileHover={{scale: 1.05}} whileTap={{scale: 0.9}} 
                             className="px-7 py-2 bg-white text-black font-bold rounded-full border border-zinc-700 cursor-pointer">Sign up</motion.button>
                      </form>
+
+                     <div className="flex p-1 gap-5 items-center w-3/4 justify-around mt-1">
+                         <div className="grow w-10 h-[0.05rem] bg-zinc-600"></div>
+                         <h3 className="text-gray-600 text-sm">Or</h3>
+                         <div className="grow w-10 h-[0.05rem] bg-zinc-600"></div>
+                   </div>
+           
+                   <GithubSignInButton text="Sign up with Github"/>
+
                      <div className='flex p-1 gap-1 text-sm'>
                        <p>Already has an account ?</p>
-                       <Link className='text-green-500 hover:underline hover:underline-offset-2' href='/signin'>Sign in</Link>
+                       <Link className='text-blue-500 hover:underline hover:underline-offset-2' href='/signin'>Sign in</Link>
                      </div>
                </div>
         </main>
@@ -66,7 +76,7 @@ function Input({text, register, errors}: {text: string, register: any, errors: s
   const [showPassword,setShowPassword] = useState(false)
 
     return <div className="relative flex flex-col p-1 gap-1 w-full"> 
-      <input {...register(`${text}`)} type={text === 'password' ? (showPassword ? 'text' : 'password') : 'text'} placeholder={text} className="outline-none px-4 py-2 bg-transparent rounded-xl border focus:ring-2 focus:ring-green-600 focus:border-transparent duration-200" />
+      <input {...register(`${text}`)} type={text === 'password' ? (showPassword ? 'text' : 'password') : 'text'} placeholder={text} className="outline-none px-4 py-2 bg-transparent rounded-xl border focus:ring-2 focus:ring-blue-600 focus:border-transparent duration-200" />
       {text === 'password' && <span onClick={() => setShowPassword(!showPassword)} className='absolute p-2 right-2 top-2 cursor-pointer rounded-lg hover:bg-zinc-800 duration-200 text-white'>{showPassword ? <FaRegEyeSlash /> : <FaRegEye />}</span>}
      {errors && 
        <div className='text-red-700 text-left flex flex-col p-1 gap-1 text-sm'>
