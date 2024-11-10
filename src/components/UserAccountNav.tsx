@@ -1,35 +1,39 @@
 'use client'
-
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+  } from "~/components/ui/dropdown-menu"
 import { LogOut } from 'lucide-react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
-import { User } from 'next-auth'
-import { signOut } from 'next-auth/react';
-import { toast } from 'sonner';
+import { signOut, useSession } from 'next-auth/react';
 import UserAvatar from './UserAvatar';
 
-export default function UserAccountNav({user} : {user: User}) {
+export default function UserAccountNav() {
 
-    return <main className="mr-3 mb:mt-1 mb:text-xs">
-                <DropdownMenu>
+    const {data: session} = useSession()
+    const user = session?.user
+
+    return <main className="mr-10 mb:mt-1 mb:text-xs">
+                <DropdownMenu modal={false}>
                     <DropdownMenuTrigger>
-                        <UserAvatar user={user}/>
+                        <UserAvatar />
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className='flex flex-col px-2 py-2 gap-1 border border-gray-700 rounded-md' align='end'> 
-                        <div className='flex flex-col p-2'>
-                            {user.name && <p className='text-sm'>{user.name}</p>}
-                            {user.email && <p className='text-xs text-zinc-500 truncate'>{user.email}</p>}
+                    <DropdownMenuContent className='m-2 min-w-44 z-[99999] rounded-md bg-neutral-100 dark:bg-neutral-900' align='center'> 
+                     <DropdownMenuItem>
+                        <div className='flex flex-col'>
+                            {user?.name && <p className='text-sm'>{user.name}</p>}
+                            {user?.email && <p className='text-xs text-zinc-500 truncate'>{user.email}</p>}
                         </div>
+                    </DropdownMenuItem>
+
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                        <button onClick={async () => {
-                        try {
-                          await signOut({callbackUrl: '/'})
-                           toast.success('Logged out successfully')
-                        } catch(err) {
-                            toast.error('Something went wrong !!!')
-                        }
-                        }} className='flex gap-2 p-2 rounded-md outline-none hover:text-red-600 hover:bg-gray-900 duration-200 border-none items-center w-full text-xs'>Log out <LogOut className='size-3'/></button>
+
+                    <DropdownMenuItem className='outline-none cursor-pointer' onClick={() => signOut({callbackUrl: '/'})}>
+                       <span className='flex items-center gap-2 text-sm transition-all duration-300 hover:text-red-500'>Log out <LogOut className='size-3'/></span>
                        </DropdownMenuItem>
+
                     </DropdownMenuContent>
                 </DropdownMenu>
         </main>

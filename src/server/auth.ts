@@ -6,6 +6,7 @@ import {
   import { db } from "~/server/db"
   import CredentialsProvider from "next-auth/providers/credentials";
   import GitHubProvider from "next-auth/providers/github";
+  import GoogleProvider from "next-auth/providers/google";
   import { signInSchema } from "~/lib/zod";
   import bcrypt from 'bcrypt'
   
@@ -38,28 +39,40 @@ import {
         return session
       },
       signIn: async ({ user, account, profile}) => {
-      try{
-        if(account?.provider === 'github' && profile) {
-            const existingUser = await db.user.findFirst({where: {OR: [{email: user?.email!}, {OauthId: user?.id}]}})
-            if(!existingUser) {
-              await db.user.create({
-                data: {
+       try {
+          const existingUser = await db.user.findFirst({where: {OR: [{email: user?.email!}, {OauthId: user?.id}]}})
+
+          if(existingUser) {
+            await db.user.update({where: {id: existingUser?.id}, data: {lastLogin: new Date()}})
+          } else {
+              if(account?.provider === 'github' && profile) {
+                await db.user.create({
+                  data: {
                     username: user.name ?? "unknown",
                     email: user.email as string,
                     ProfilePicture: user.image,
                     OauthId: user.id,
                     OauthProvider: 'GITHUB'
                 }
-              })
+              })      
             }
-           else await db.user.update({where: {id: existingUser?.id}, data: {lastLogin: new Date()}})
-        }
-        
-        return true
-      } catch(e) {
+             if(account?.provider === 'google' && profile) {
+              await db.user.create({
+                data: {
+                  username: user.name ?? "unknown",
+                  email: user.email as string,
+                  ProfilePicture: user.image,
+                  OauthId: user.id,
+                  OauthProvider: 'GOOGLE'
+              }
+            })  
+             }
+          } 
+          return true
+       } catch(e) {
         console.log(e)
         return false
-      }
+       }
     },
   },
     providers: [
@@ -98,7 +111,11 @@ import {
        GitHubProvider({
         clientId: process.env.GITHUB_ID || "",
         clientSecret: process.env.GITHUB_SECRET || ""
-       })
+       }),
+       GoogleProvider({
+        clientId: process.env.GOOGLE_CLIENT_ID || "",
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET || ""
+      })
     ],
     session: {
       strategy: 'jwt',
@@ -114,4 +131,31 @@ import {
   } satisfies NextAuthOptions;
   
 export const getServerAuthSession = () => getServerSession(authOptions)
+
+
+
+// try{
+//   if(account?.provider === 'github' && profile) {
+//     if(!existingUser) {
+//       await db.user.create({
+//         data: {
+//             username: user.name ?? "unknown",
+//             email: user.email as string,
+//             ProfilePicture: user.image,
+//             OauthId: user.id,
+//             OauthProvider: 'GITHUB'
+//         }
+//       })
+//     }
+//    else if (account?.provider === 'google' as string && profile) {
+    
+//    }
+//    else await db.user.update({where: {id: existingUser?.id}, data: {lastLogin: new Date()}})
+// }
+
+// return true
+// } catch(e) {
+// console.log(e)
+// return false
+// }
   
