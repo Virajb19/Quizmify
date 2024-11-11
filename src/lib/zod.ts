@@ -12,3 +12,9 @@ export const signInSchema = z.object({
     password: z.string().min(8, {message: 'Password must be atleast 8 letters long'}).max(15)
               .regex(/^(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/, {message: 'Password must contain atleast one special char and one number'})
 })
+
+export const quizCreationSchema = z.object({
+    topic: z.string().min(4, { message: 'Topic must be at least 4 characters long.'}).max(50),
+    type: z.enum(['mcq', 'open_ended']),
+    amount: z.number().int({message: 'Enter a integer value'}).min(1).max(10)
+})

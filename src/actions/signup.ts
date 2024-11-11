@@ -3,12 +3,13 @@
 import { signUpSchema } from "~/lib/zod"
 import bcrypt from 'bcrypt'
 import { db } from "~/server/db"
+import { z } from 'zod'
 
-
-interface formData {
-    username: string
-    email: string
-    password: string
+// type formData = z.infer<typeof signUpSchema>
+type formData = {
+    username: string;
+    email: string;
+    password: string;
 }
 
 export async function signup(formData: formData) {

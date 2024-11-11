@@ -15,7 +15,7 @@ export default function UserAccountNav() {
     const {data: session} = useSession()
     const user = session?.user
 
-    return <main className="mr-10 mb:mt-1 mb:text-xs">
+    return <main className="mr-2 md:mr-10 mb:text-xs">
                 <DropdownMenu modal={false}>
                     <DropdownMenuTrigger>
                         <UserAvatar />
@@ -31,7 +31,7 @@ export default function UserAccountNav() {
                     <DropdownMenuSeparator />
 
                     <DropdownMenuItem className='outline-none cursor-pointer' onClick={() => signOut({callbackUrl: '/'})}>
-                       <span className='flex items-center gap-2 text-sm transition-all duration-300 hover:text-red-500'>Log out <LogOut className='size-3'/></span>
+                       <span className='flex items-center gap-2 text-sm transition-all duration-300 hover:text-red-500'>Log out <LogOut className='size-4'/></span>
                        </DropdownMenuItem>
 
                     </DropdownMenuContent>

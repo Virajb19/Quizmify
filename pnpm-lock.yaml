@@ -11,6 +11,9 @@ importers:
       '@auth/prisma-adapter':
         specifier: ^2.7.2
         version: 2.7.3(@prisma/client@5.21.1(prisma@5.21.1))
+      '@hookform/resolvers':
+        specifier: ^3.9.1
+        version: 3.9.1(react-hook-form@7.53.1(react@18.3.1))
       '@prisma/client':
         specifier: ^5.21.1
         version: 5.21.1(prisma@5.21.1)
@@ -23,6 +26,12 @@ importers:
       '@radix-ui/react-icons':
         specifier: ^1.3.1
         version: 1.3.1(react@18.3.1)
+      '@radix-ui/react-label':
+        specifier: ^2.1.0
+        version: 2.1.0(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@radix-ui/react-separator':
+        specifier: ^1.1.0
+        version: 1.1.0(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-slot':
         specifier: ^1.1.0
         version: 1.1.0(@types/react@18.3.12)(react@18.3.1)
@@ -65,6 +74,9 @@ importers:
       react-avatar:
         specifier: ^5.0.3
         version: 5.0.3(@babel/runtime@7.26.0)(core-js-pure@3.39.0)(prop-types@15.8.1)(react@18.3.1)
+      react-d3-cloud:
+        specifier: ^1.0.6
+        version: 1.0.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
@@ -197,6 +209,11 @@ packages:
 
   '@floating-ui/utils@0.2.8':
     resolution: {integrity: sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==}
+
+  '@hookform/resolvers@3.9.1':
+    resolution: {integrity: sha512-ud2HqmGBM0P0IABqoskKWI6PEf6ZDDBZkFqe2Vnl+mTHCEHzr3ISjjZyCwTjC/qpL25JC9aIDkloQejvMeq0ug==}
+    peerDependencies:
+      react-hook-form: ^7.0.0
 
   '@humanwhocodes/config-array@0.13.0':
     resolution: {integrity: sha512-DZLEEqFWQFiyK6h5YIeynKx7JlvCYWL0cImfSRXZ9l4Sg2efkFGTuFf6vzXjK1cq6IYkU+Eg/JizXw+TD2vRNw==}
@@ -484,6 +501,19 @@ packages:
       '@types/react':
         optional: true
 
+  '@radix-ui/react-label@2.1.0':
+    resolution: {integrity: sha512-peLblDlFw/ngk3UWq0VnYaOLy6agTZZ+MUO/WhVfm14vJGML+xH4FAl2XQGLqdefjNb7ApRg6Yn7U42ZhmYXdw==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+
   '@radix-ui/react-menu@2.1.2':
     resolution: {integrity: sha512-lZ0R4qR2Al6fZ4yCCZzu/ReTFrylHFxIqy7OezIpWF4bL0o9biKo0pFIvkaew3TyZ9Fy5gYVrR5zCGZBVbO1zg==}
     peerDependencies:
@@ -551,6 +581,19 @@ packages:
 
   '@radix-ui/react-roving-focus@1.1.0':
     resolution: {integrity: sha512-EA6AMGeq9AEeQDeSH0aZgG198qkfHSbvWTf1HvoDmOB5bBG/qTxjYMWUKMnYiV6J/iP/J8MEFSuB2zRU2n7ODA==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+
+  '@radix-ui/react-separator@1.1.0':
+    resolution: {integrity: sha512-3uBAs+egzvJBDZAzvb/n4NxxOYpnspmWxO2u5NbZ8Y6FM/NdrGSF9bop3Cf6F6C71z1rTSn8KV0Fo2ZVd79lGA==}
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -958,6 +1001,9 @@ packages:
   core-js-pure@3.39.0:
     resolution: {integrity: sha512-7fEcWwKI4rJinnK+wLTezeg2smbFFdSBP6E2kQZNbnzM2s1rpKQ6aaRteZSSg7FLU3P0HGGVo/gbpfanU36urg==}
 
+  create-react-class@15.7.0:
+    resolution: {integrity: sha512-QZv4sFWG9S5RUvkTYWbflxeZX+JG7Cz0Tn33rQBJ+WFQTqTfUTjMjiv9tnfXazjsO5r0KhPs+AqCjyrQX6h2ng==}
+
   cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
@@ -972,6 +1018,39 @@ packages:
 
   csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
+
+  d3-array@2.12.1:
+    resolution: {integrity: sha512-B0ErZK/66mHtEsR1TkPEEkwdy+WDesimkM5gpZr5Dsg54BiTA5RXtYW5qTLIAcekaS9xfZrzBLF/OAkB3Qn1YQ==}
+
+  d3-cloud@1.2.7:
+    resolution: {integrity: sha512-8TrgcgwRIpoZYQp7s3fGB7tATWfhckRb8KcVd1bOgqkNdkJRDGWfdSf4HkHHzZxSczwQJdSxvfPudwir5IAJ3w==}
+
+  d3-color@2.0.0:
+    resolution: {integrity: sha512-SPXi0TSKPD4g9tw0NMZFnR95XVgUZiBH+uUTqQuDu1OsE2zomHU7ho0FISciaPvosimixwHFl3WHLGabv6dDgQ==}
+
+  d3-dispatch@1.0.6:
+    resolution: {integrity: sha512-fVjoElzjhCEy+Hbn8KygnmMS7Or0a9sI2UzGwoB7cCtvI1XpVN9GpoYlnb3xt2YV66oXYb1fLJ8GMvP4hdU1RA==}
+
+  d3-format@2.0.0:
+    resolution: {integrity: sha512-Ab3S6XuE/Q+flY96HXT0jOXcM4EAClYFnRGY5zsjRGNy6qCYrQsMffs7cV5Q9xejb35zxW5hf/guKw34kvIKsA==}
+
+  d3-interpolate@2.0.1:
+    resolution: {integrity: sha512-c5UhwwTs/yybcmTpAVqwSFl6vrQ8JZJoT5F7xNFK9pymv5C0Ymcc9/LIJHtYIggg/yS9YHw8i8O8tgb9pupjeQ==}
+
+  d3-scale-chromatic@2.0.0:
+    resolution: {integrity: sha512-LLqy7dJSL8yDy7NRmf6xSlsFZ6zYvJ4BcWFE4zBrOPnQERv9zj24ohnXKRbyi9YHnYV+HN1oEO3iFK971/gkzA==}
+
+  d3-scale@3.3.0:
+    resolution: {integrity: sha512-1JGp44NQCt5d1g+Yy+GeOnZP7xHo0ii8zsQp6PGzd+C1/dl0KGsp9A7Mxwp+1D1o4unbTTxVdU/ZOIEBoeZPbQ==}
+
+  d3-selection@2.0.0:
+    resolution: {integrity: sha512-XoGGqhLUN/W14NmaqcO/bb1nqjDAw5WtSYb2X8wiuQWvSZUsUVYsOSkOybUrNvcBjaywBdYPy03eXHMXjk9nZA==}
+
+  d3-time-format@3.0.0:
+    resolution: {integrity: sha512-UXJh6EKsHBTjopVqZBhFysQcoXSv/5yLONZvkQ5Kk3qbwiUYkdX17Xa1PT6U1ZWXGGfB1ey5L8dKMlFq2DO0Ag==}
+
+  d3-time@2.1.1:
+    resolution: {integrity: sha512-/eIQe/eR4kCQwq7yxi7z4c6qEXf2IYGcjoWB5OOQy4Tq9Uv39/947qlDcN2TLkiTzQWzvnsuYPB9TrWaNfipKQ==}
 
   damerau-levenshtein@1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
@@ -1365,6 +1444,9 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
+  hoist-non-react-statics@3.3.2:
+    resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
+
   https-proxy-agent@5.0.1:
     resolution: {integrity: sha512-dFcAjpTQFgoLMzC2VwU+C/CbS7uRL0lWmxDITmqm7C+7F0Odmj6s9l6alZc6AELXhrnggM2CeWSXHGOdX2YtwA==}
     engines: {node: '>= 6'}
@@ -1391,6 +1473,9 @@ packages:
   internal-slot@1.0.7:
     resolution: {integrity: sha512-NGnrKwXzSms2qUUih/ILZ5JBqNTSa1+ZmP6flaIp6KmSElgE9qdndzS3cqjrDovwFdmwsGsLdeFgB6suw+1e9g==}
     engines: {node: '>= 0.4'}
+
+  internmap@1.0.1:
+    resolution: {integrity: sha512-lDB5YccMydFBtasVtxnZ3MRBHuaoE8GKsppq+EchKL2U4nK/DmEpPHNH8MZe5HkMtpSiTSOZwfN0tzYjO/lJEw==}
 
   invariant@2.2.4:
     resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
@@ -1991,6 +2076,10 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
+  query-selector@1.0.9:
+    resolution: {integrity: sha512-IzUgkI5G+b2W6JQpTwHy9IlVr49fPACC9nPLAq26DnLHVzdJJPWfgNsRRMA974MSKyr6tEYemxBcPxdwBXQqAQ==}
+    engines: {node: '>=0.10'}
+
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
@@ -2002,10 +2091,24 @@ packages:
       prop-types: ^15.0.0 || ^16.0.0
       react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
 
+  react-d3-cloud@1.0.6:
+    resolution: {integrity: sha512-u9nIDUU9oSJ5RSDBJQTBuXkATiX4lsBUdhzLiKN8bKF6SbEvJU+NrI/MvERxnXegq1/2r7jwl2CUdtbdfI7Ugw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-0 || ^18.0.0-0
+      react-dom: ^16.8.0 || ^17.0.0-0 || ^18.0.0-0
+
   react-dom@18.3.1:
     resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
     peerDependencies:
       react: ^18.3.1
+
+  react-fast-compare@3.2.2:
+    resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
+
+  react-faux-dom@4.5.0:
+    resolution: {integrity: sha512-T03fyZw/He4EYPqQpK5KJ9BQXNNMMgUo5DiwWkFG5wlpMDuiiYc4Q8WfeODjl3g2S2OBqy3+0VUr44sZkqz2Sw==}
+    peerDependencies:
+      react: '*'
 
   react-hook-form@7.53.1:
     resolution: {integrity: sha512-6aiQeBda4zjcuaugWvim9WsGqisoUk+etmFEsSUMm451/Ic8L/UAb7sRtMj3V+Hdzm6mMjU1VhiSzYUZeBm0Vg==}
@@ -2219,6 +2322,9 @@ packages:
   strip-json-comments@3.1.1:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
+
+  style-attr@1.3.0:
+    resolution: {integrity: sha512-srFr54gzEZoy73WgYfnbxCAtNCzF0Hn5RGzK7gi/0G6ttZd9v3WZFGY4ed5ABr43dbGjPNr4T46geUxxUP9i6w==}
 
   styled-jsx@5.1.1:
     resolution: {integrity: sha512-pW7uC1l4mBZ8ugbiZrcIsiIvVx1UmTfw7UkC3Um2tmfUq9Bhk8IiyEIPl6F8agHgjzku6j0xQEZbfA5uSgSaCw==}
@@ -2495,6 +2601,10 @@ snapshots:
 
   '@floating-ui/utils@0.2.8': {}
 
+  '@hookform/resolvers@3.9.1(react-hook-form@7.53.1(react@18.3.1))':
+    dependencies:
+      react-hook-form: 7.53.1(react@18.3.1)
+
   '@humanwhocodes/config-array@0.13.0':
     dependencies:
       '@humanwhocodes/object-schema': 2.0.3
@@ -2740,6 +2850,15 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.12
 
+  '@radix-ui/react-label@2.1.0(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@radix-ui/react-primitive': 2.0.0(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    optionalDependencies:
+      '@types/react': 18.3.12
+      '@types/react-dom': 18.3.1
+
   '@radix-ui/react-menu@2.1.2(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@radix-ui/primitive': 1.1.0
@@ -2824,6 +2943,15 @@ snapshots:
       '@radix-ui/react-primitive': 2.0.0(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-use-callback-ref': 1.1.0(@types/react@18.3.12)(react@18.3.1)
       '@radix-ui/react-use-controllable-state': 1.1.0(@types/react@18.3.12)(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    optionalDependencies:
+      '@types/react': 18.3.12
+      '@types/react-dom': 18.3.1
+
+  '@radix-ui/react-separator@1.1.0(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@radix-ui/react-primitive': 2.0.0(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
     optionalDependencies:
@@ -3240,6 +3368,11 @@ snapshots:
 
   core-js-pure@3.39.0: {}
 
+  create-react-class@15.7.0:
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+
   cross-spawn@7.0.3:
     dependencies:
       path-key: 3.1.1
@@ -3251,6 +3384,47 @@ snapshots:
   cssesc@3.0.0: {}
 
   csstype@3.1.3: {}
+
+  d3-array@2.12.1:
+    dependencies:
+      internmap: 1.0.1
+
+  d3-cloud@1.2.7:
+    dependencies:
+      d3-dispatch: 1.0.6
+
+  d3-color@2.0.0: {}
+
+  d3-dispatch@1.0.6: {}
+
+  d3-format@2.0.0: {}
+
+  d3-interpolate@2.0.1:
+    dependencies:
+      d3-color: 2.0.0
+
+  d3-scale-chromatic@2.0.0:
+    dependencies:
+      d3-color: 2.0.0
+      d3-interpolate: 2.0.1
+
+  d3-scale@3.3.0:
+    dependencies:
+      d3-array: 2.12.1
+      d3-format: 2.0.0
+      d3-interpolate: 2.0.1
+      d3-time: 2.1.1
+      d3-time-format: 3.0.0
+
+  d3-selection@2.0.0: {}
+
+  d3-time-format@3.0.0:
+    dependencies:
+      d3-time: 2.1.1
+
+  d3-time@2.1.1:
+    dependencies:
+      d3-array: 2.12.1
 
   damerau-levenshtein@1.0.8: {}
 
@@ -3426,8 +3600,8 @@ snapshots:
       '@typescript-eslint/parser': 8.13.0(eslint@8.57.1)(typescript@5.6.3)
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.6.3(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@8.57.1)
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3)(eslint@8.57.1)
+      eslint-import-resolver-typescript: 3.6.3(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1))(eslint@8.57.1)
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@8.57.1)
       eslint-plugin-react: 7.37.2(eslint@8.57.1)
       eslint-plugin-react-hooks: 5.0.0(eslint@8.57.1)
@@ -3446,37 +3620,37 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@8.57.1):
+  eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.3.7
       enhanced-resolve: 5.17.1
       eslint: 8.57.1
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3)(eslint@8.57.1)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
       fast-glob: 3.3.2
       get-tsconfig: 4.8.1
       is-bun-module: 1.2.1
       is-glob: 4.0.3
     optionalDependencies:
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3)(eslint@8.57.1)
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
     transitivePeerDependencies:
       - '@typescript-eslint/parser'
       - eslint-import-resolver-node
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3)(eslint@8.57.1):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 8.13.0(eslint@8.57.1)(typescript@5.6.3)
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.6.3(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@8.57.1)
+      eslint-import-resolver-typescript: 3.6.3(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1))(eslint@8.57.1)
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3)(eslint@8.57.1):
+  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.8
@@ -3487,7 +3661,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3)(eslint@8.57.1)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.13.0(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
       hasown: 2.0.2
       is-core-module: 2.15.1
       is-glob: 4.0.3
@@ -3802,6 +3976,10 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
+  hoist-non-react-statics@3.3.2:
+    dependencies:
+      react-is: 16.13.1
+
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
@@ -3830,6 +4008,8 @@ snapshots:
       es-errors: 1.3.0
       hasown: 2.0.2
       side-channel: 1.0.6
+
+  internmap@1.0.1: {}
 
   invariant@2.2.4:
     dependencies:
@@ -4340,6 +4520,8 @@ snapshots:
 
   punycode@2.3.1: {}
 
+  query-selector@1.0.9: {}
+
   queue-microtask@1.2.3: {}
 
   react-avatar@5.0.3(@babel/runtime@7.26.0)(core-js-pure@3.39.0)(prop-types@15.8.1)(react@18.3.1):
@@ -4351,11 +4533,33 @@ snapshots:
       prop-types: 15.8.1
       react: 18.3.1
 
+  react-d3-cloud@1.0.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      d3-cloud: 1.2.7
+      d3-scale: 3.3.0
+      d3-scale-chromatic: 2.0.0
+      d3-selection: 2.0.0
+      prop-types: 15.8.1
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-fast-compare: 3.2.2
+      react-faux-dom: 4.5.0(react@18.3.1)
+
   react-dom@18.3.1(react@18.3.1):
     dependencies:
       loose-envify: 1.4.0
       react: 18.3.1
       scheduler: 0.23.2
+
+  react-fast-compare@3.2.2: {}
+
+  react-faux-dom@4.5.0(react@18.3.1):
+    dependencies:
+      create-react-class: 15.7.0
+      hoist-non-react-statics: 3.3.2
+      query-selector: 1.0.9
+      react: 18.3.1
+      style-attr: 1.3.0
 
   react-hook-form@7.53.1(react@18.3.1):
     dependencies:
@@ -4597,6 +4801,8 @@ snapshots:
   strip-bom@3.0.0: {}
 
   strip-json-comments@3.1.1: {}
+
+  style-attr@1.3.0: {}
 
   styled-jsx@5.1.1(react@18.3.1):
     dependencies:

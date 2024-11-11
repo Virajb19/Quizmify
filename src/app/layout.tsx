@@ -6,7 +6,6 @@ import Providers from "./providers";
 import NextTopLoader from 'nextjs-toploader';
 import { Lexend } from 'next/font/google';
 import Navbar from "~/components/Navbar";
-import { twMerge } from "tailwind-merge";
 
 
 export const metadata: Metadata = {

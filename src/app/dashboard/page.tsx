@@ -1,8 +1,9 @@
 import { redirect } from "next/navigation"
+import HotTopics from "~/components/dashboard/HotTopics"
+import RecentActivity from "~/components/dashboard/RecentActivity"
 import HistoryCard from "~/components/HistoryCard"
 import QuizMeCard from "~/components/QuizMeCard"
 import { getServerAuthSession } from "~/server/auth"
-import HotTopics from "./HotTopics"
 
 export const metadata = {
     title: "Dashboard"
@@ -22,6 +23,7 @@ export default async function DashBoard() {
 
                 <div className="grid mt-4 gap-4 md:grid-cols-2 lg:grid-cols-7">
                    <HotTopics />
+                   <RecentActivity />
                 </div>
         </main>
 }

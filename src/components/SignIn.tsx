@@ -12,7 +12,7 @@ import { twMerge } from 'tailwind-merge'
 import GithubSignInButton from './GithubSignInButton'
 
 
-interface SignInData {
+type SignInData =  {
     email: string,
     password: string
 }
