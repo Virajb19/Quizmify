@@ -35,7 +35,7 @@ export default function SignIn() {
     }
     
     return <main className="w-full min-h-screen flex-center">
-               <div id="signup" className="flex flex-col p-2 gap-3 rounded-xl items-center w-[30%] mb:w-[90%] tb:w-1/2 py-5 border">
+               <div id="signup" className="flex flex-col p-2 gap-3 rounded-xl items-center w-[30%] mb:w-[90%] tb:w-1/2 py-5 border dark:bg-card">
                      <h2 className="text-center mb:text-5xl tb:text-6xl">Sign in</h2>
                      <form className="flex flex-col p-1 gap-3 w-3/4 mb:w-full items-center" onSubmit={handleSubmit(OnSubmit)}>
                            <Input text='email' register={register}/>

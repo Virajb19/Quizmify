@@ -2,7 +2,7 @@
 
 import {motion} from 'framer-motion'
 import { redirect, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { signup } from '~/actions/signup' 
 import { toast } from 'sonner'
@@ -58,7 +58,7 @@ export default function Signup() {
   }
 
     return <main className="w-full min-h-screen flex-center">
-               <div id="signup" className="flex flex-col p-2 gap-3 rounded-xl items-center w-[90%] md:w-1/2 lg:w-[30%] py-5 border">
+               <div id="signup" className="flex flex-col p-2 gap-3 rounded-xl items-center w-[90%] md:w-1/2 lg:w-[30%] py-5 border dark:bg-card">
                      <h2 className="text-center mb:text-5xl tb:text-6xl">Sign up</h2>
                      <form className="flex flex-col p-1 gap-3 w-3/4 mb:w-full items-center" onSubmit={handleSubmit(onSubmit)}>
                            <Input text='username' register={register} errors={error?.username || [errors?.username?.message || ""]}/>

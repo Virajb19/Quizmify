@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { quizCreationSchema } from "~/lib/zod";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from "framer-motion";
-import { BookOpen, CopyCheck } from "lucide-react";
+import { BookOpen, CopyCheck, Loader2 } from "lucide-react";
 import {
    Form,
    FormControl,
@@ -29,11 +29,13 @@ export default function QuizCreation() {
    })
 
    function onSubmit(data: Input) {
-      alert('submitted')
+      alert(JSON.stringify(data))
    }
 
-    return <main className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 border border-yellow-900">
-               <Card className="border border-green-800">
+   form.watch()
+
+    return <main className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 mb:w-[90%]">
+               <Card>
                <CardHeader>
                    <CardTitle className="text-2xl font-bold">Quiz Creation</CardTitle>
                    <CardDescription>Choose a topic</CardDescription>
@@ -50,7 +52,7 @@ export default function QuizCreation() {
                     <FormControl>
                       <input placeholder="Enter a topic" {...field} className="input-style"/>
                     </FormControl>
-                    <FormDescription className="text-xs">
+                    <FormDescription className="mb:text-[0.65rem]">
                       Please provide any topic you would like to be quizzed on
                       here.
                     </FormDescription>
@@ -66,7 +68,7 @@ export default function QuizCreation() {
                         <FormControl>
                            <input placeholder="How many questions?" type="number" min={1} max={10} className="input-style" {...field} onChange={e => form.setValue("amount", parseInt(e.target.value))} />
                         </FormControl>
-                        <FormDescription>
+                        <FormDescription className="mb:text-[0.65rem]">
                       You can choose how many questions you would like to be
                       quizzed on here.
                     </FormDescription>
@@ -75,21 +77,23 @@ export default function QuizCreation() {
                  )}
                 />
 
-                <div className="flex justify-between gap-2">
-                   <Button className="w-1/2">
-                     <CopyCheck className="size-4"/> Multiple Choice
+                <div id="buttons" className="flex w-full justify-center">
+
+                   <Button onClick={() => form.setValue('type','mcq')} variant={ form.getValues("type") === "mcq" ? "default" : "secondary"} type="button" className="rounded-none rounded-l-lg">
+                     <CopyCheck className="ml-2 size-5"/> Multiple Choice
                      </Button>
 
                     <Separator orientation="vertical"/>
 
-                   <Button className="w-1/2">
-                     <BookOpen className="size-4"/> Open ended
+                   <Button onClick={() => form.setValue('type','open_ended')} variant={ form.getValues('type') === 'open_ended' ? "default" : "secondary"} type="button" className="rounded-none rounded-r-lg">
+                     <BookOpen className="size-5"/> Open ended
                      </Button>
+
                 </div>
 
                    
-                      <motion.button type="submit"  whileHover={{scale: 1.05}} whileTap={{scale: 0.9}} 
-                      className="border bg-black text-white dark:bg-white dark:text-black rounded-full font-semibold w-fit py-1 px-3 block mx-auto">Submit</motion.button>
+                      <motion.button type="submit" whileHover={{scale: 1.07}} 
+                      className="border bg-black text-white dark:bg-white dark:text-black rounded-lg text-lg font-semibold w-fit py-1 px-3 flex items-center gap-1 mx-auto"><Loader2 className="animate-spin"/>Submit</motion.button>
                     
                     </form>
                     </Form>
