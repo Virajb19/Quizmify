@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 
 export default function UserAvatar() {
 
-  const {data: session, status} = useSession()
+  const {data: session} = useSession()
   const user = session?.user
 
     return <Avatar>

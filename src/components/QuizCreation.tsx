@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 import { Separator } from "~/components/ui/separator"
 import { useForm } from 'react-hook-form'
 import { quizCreationSchema } from "~/lib/zod";
@@ -18,6 +19,7 @@ import {
    FormMessage,
  } from "~/components/ui/form";
 import { Button } from "./ui/button";
+import { twMerge } from "tailwind-merge";
 
 type Input = z.infer<typeof quizCreationSchema>
 
@@ -25,7 +27,7 @@ export default function QuizCreation() {
 
    const form = useForm<Input>({
       resolver: zodResolver(quizCreationSchema),
-      defaultValues: { topic: "", type: "mcq", amount: 3}
+      defaultValues: { topic: "", type: "mcq", amount: 3, level: "hard"}
    })
 
    function onSubmit(data: Input) {
@@ -34,16 +36,16 @@ export default function QuizCreation() {
 
    form.watch()
 
-    return <main className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 mb:w-[90%]">
-               <Card>
-               <CardHeader>
+          return  <div className="relative w-full min-h-screen">
+             <Card className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 mb:w-[90%]">
+               <CardHeader className="flex-center">
                    <CardTitle className="text-2xl font-bold">Quiz Creation</CardTitle>
                    <CardDescription>Choose a topic</CardDescription>
                  </CardHeader>
                  <CardContent>
 
                    <Form {...form}>
-                    <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+                    <form className="space-y-3" onSubmit={form.handleSubmit(onSubmit)}>
 
                     <FormField  control={form.control} name="topic"
                    render={({ field }) => (
@@ -77,6 +79,40 @@ export default function QuizCreation() {
                  )}
                 />
 
+                        <FormField
+                          control={form.control}
+                          name="level"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Difficulty</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select a verified email to display" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {['easy','medium','hard'].map((level) => {
+                                       return <SelectItem key={level} value={level} className={twMerge(
+                                           level === 'easy' && "focus:bg-green-700",
+                                           level === 'medium' && "focus:bg-yellow-700",
+                                           level === 'hard' && "focus:bg-red-700",
+                                           "duration-200"
+                                       )}>
+                                        {level}
+                                        </SelectItem>
+                                  })}
+                                </SelectContent>
+                              </Select>
+                              <FormDescription className="mb:text-[0.65rem]">
+                                 Provide difficulty level
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+
                 <div id="buttons" className="flex w-full justify-center">
 
                    <Button onClick={() => form.setValue('type','mcq')} variant={ form.getValues("type") === "mcq" ? "default" : "secondary"} type="button" className="rounded-none rounded-l-lg">
@@ -91,14 +127,14 @@ export default function QuizCreation() {
 
                 </div>
 
-                   
-                      <motion.button type="submit" whileHover={{scale: 1.07}} 
-                      className="border bg-black text-white dark:bg-white dark:text-black rounded-lg text-lg font-semibold w-fit py-1 px-3 flex items-center gap-1 mx-auto"><Loader2 className="animate-spin"/>Submit</motion.button>
+                   {/* <p>Loading button shadcn disable the button while loading</p>  */}
+                      <motion.button type="submit" whileHover={{scale: 1.05}} whileTap={{scale: 0.9}}
+                      className="border bg-black text-white dark:bg-white dark:text-black rounded-lg text-lg font-semibold w-fit py-1 px-3 flex items-center gap-1 mx-auto mt-10"><Loader2 className="animate-spin"/>Submit</motion.button>
                     
                     </form>
                     </Form>
 
                  </CardContent>
                </Card>
-        </main>
+          </div>
 }

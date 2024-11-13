@@ -10,20 +10,75 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+enum OauthProvider {
+  GOOGLE
+  GITHUB
+}
+
+enum GameType {
+  mcq
+  open_ended
+}
+
+enum Level {
+  easy
+  medium
+  hard
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   username  String   @unique
   email     String   @unique
   password  String? 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   lastLogin DateTime @default(now())
   ProfilePicture String? @default("")
+
   OauthProvider OauthProvider?
   OauthId String?
+
+  games Game[]
 }
 
-enum OauthProvider {
-  GOOGLE
-  GITHUB
+model Game {
+  id String @id @default(cuid())
+  gameType GameType
+  topic String
+  timeStarted DateTime
+  timeEnded DateTime?
+  level Level @default(hard)
+
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+
+  questions Question[]
+
+  @@index([userId])
 }
+
+model Question {
+  id String @id @default(cuid())
+  question String
+  questionType GameType
+  correctAnswer String
+  options Json?
+  percentageCorrect Float?
+  userAnswer String?
+  isCorrect Boolean?
+
+  gameId String
+  game Game @relation(fields: [gameId],references: [id])
+
+  @@index([gameId])
+}
+
+model Topic_count {
+  id String @id @default(cuid())
+  topic String @unique
+  count Int
+}
+
+

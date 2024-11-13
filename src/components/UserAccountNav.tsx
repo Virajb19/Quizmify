@@ -1,4 +1,5 @@
 'use client'
+
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -15,7 +16,7 @@ export default function UserAccountNav() {
     const {data: session} = useSession()
     const user = session?.user
 
-    return <main className="mr-2 md:mr-10 mb:text-xs">
+    return <main className="mb:text-xs">
                 <DropdownMenu modal={false}>
                     <DropdownMenuTrigger>
                         <UserAvatar />
