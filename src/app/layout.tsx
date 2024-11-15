@@ -1,7 +1,8 @@
 import "~/styles/globals.css";
 
 import { type Metadata } from "next";
-import { Toaster} from 'sonner'
+import { Toaster as SonnerToaster} from 'sonner'
+import { Toaster} from "~/components/ui/toaster"
 import Providers from "./providers";
 import NextTopLoader from 'nextjs-toploader';
 import { Lexend } from 'next/font/google';
@@ -19,7 +20,6 @@ const lexend = Lexend({
   weight: ['400', '700'], 
 });
 
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -27,7 +27,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={lexend.className} suppressHydrationWarning>
         <Providers>
-         <Toaster position="top-center" richColors/>
+         <SonnerToaster position="top-center" richColors />
+         <Toaster />
          <NextTopLoader height={4} color="#38bdf8" showSpinner={false} easing="ease"/>
          <Navbar />
          {children}

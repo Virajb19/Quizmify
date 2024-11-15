@@ -9,29 +9,60 @@ import { quizCreationSchema } from "~/lib/zod";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from "framer-motion";
 import { BookOpen, CopyCheck, Loader2 } from "lucide-react";
-import {
-   Form,
-   FormControl,
-   FormDescription,
-   FormField,
-   FormItem,
-   FormLabel,
-   FormMessage,
- } from "~/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
 import { Button } from "./ui/button";
 import { twMerge } from "tailwind-merge";
+import { useMutation } from '@tanstack/react-query'
+import axios, { AxiosError } from "axios";
+import { useToast } from "~/hooks/use-toast";
+import { ToastAction } from "./ui/toast";
+import { useRouter } from "nextjs-toploader/app";
+import { toast as Toast } from 'sonner'
+import { useRef } from "react";
 
 type Input = z.infer<typeof quizCreationSchema>
 
 export default function QuizCreation() {
+
+  const { toast } = useToast()
+  const router = useRouter()
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
 
    const form = useForm<Input>({
       resolver: zodResolver(quizCreationSchema),
       defaultValues: { topic: "", type: "mcq", amount: 3, level: "hard"}
    })
 
+   const {mutate: getQuestions, isPending} = useMutation({
+    mutationFn: async ({topic,type,amount,level}: Input) => {
+        const res = await axios.post('/api/game', {topic,type,amount,level})
+        return res.data
+    }
+   })
+
    function onSubmit(data: Input) {
-      alert(JSON.stringify(data))
+      getQuestions(data,{
+        onError: (error) => {
+           if(error instanceof AxiosError) {
+              if(error?.response?.status === 500 || error?.response?.status === 400) {
+                  toast({title: 'Error', description: 'Something went wrong!!!. Try again',variant: 'destructive',
+                    action: <ToastAction onClick={() => {
+                       if(buttonRef.current) buttonRef.current.click()
+                    }}  altText="Try again">Try again</ToastAction>})
+              }
+           }
+        },
+        onSuccess: ({gameId}: {gameId: string}) => {
+             setTimeout(() => {
+                if(form.getValues('type') === 'mcq') {
+                    router.push(`/play/mcq/${gameId}`)
+                } else {
+                  router.push(`/play/open-ended/${gameId}`)
+                }
+             },1000)
+           Toast.success('Successfully created the game')
+        } 
+      })
    }
 
    form.watch()
@@ -127,9 +158,17 @@ export default function QuizCreation() {
 
                 </div>
 
-                   {/* <p>Loading button shadcn disable the button while loading</p>  */}
-                      <motion.button type="submit" whileHover={{scale: 1.05}} whileTap={{scale: 0.9}}
-                      className="border bg-black text-white dark:bg-white dark:text-black rounded-lg text-lg font-semibold w-fit py-1 px-3 flex items-center gap-1 mx-auto mt-10"><Loader2 className="animate-spin"/>Submit</motion.button>
+                      <motion.button onKeyDown={(e: React.KeyboardEvent) => {
+                        if(e.key === 'Enter' && buttonRef.current && !isPending) {
+                            buttonRef.current.click()
+                        }
+                      }} 
+                        ref={buttonRef} disabled={isPending} type="submit" whileHover={isPending ? {} : {scale: 1.05}} whileTap={isPending ? {} : {scale: 0.9}}
+                        className={twMerge("border bg-black text-white cursor-pointer dark:bg-white dark:text-black rounded-lg text-lg font-semibold w-fit py-1 px-3 flex items-center gap-1 mx-auto mt-10", 
+                        isPending && "opacity-50 cursor-not-allowed"
+                      )}>
+                        {isPending && <Loader2 className="animate-spin"/>} {isPending ? 'Please wait' : 'Submit'}
+                    </motion.button>
                     
                     </form>
                     </Form>

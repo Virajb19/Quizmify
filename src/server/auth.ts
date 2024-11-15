@@ -122,7 +122,8 @@ import {
       maxAge: 2 * 24 * 60 * 60
     },
     jwt: {
-      secret: process.env.NEXTAUTH_SECRET || 'secret'
+      secret: process.env.NEXTAUTH_SECRET || 'secret',
+      maxAge: 60 * 60
     },
     pages: {
       signIn: '/signin'
@@ -131,31 +132,3 @@ import {
   } satisfies NextAuthOptions;
   
 export const getServerAuthSession = () => getServerSession(authOptions)
-
-
-
-// try{
-//   if(account?.provider === 'github' && profile) {
-//     if(!existingUser) {
-//       await db.user.create({
-//         data: {
-//             username: user.name ?? "unknown",
-//             email: user.email as string,
-//             ProfilePicture: user.image,
-//             OauthId: user.id,
-//             OauthProvider: 'GITHUB'
-//         }
-//       })
-//     }
-//    else if (account?.provider === 'google' as string && profile) {
-    
-//    }
-//    else await db.user.update({where: {id: existingUser?.id}, data: {lastLogin: new Date()}})
-// }
-
-// return true
-// } catch(e) {
-// console.log(e)
-// return false
-// }
-  

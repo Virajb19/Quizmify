@@ -13,10 +13,10 @@ const [loading,setLoading] = useState(false)
   return (
     <motion.button
       id="github"
-      onClick={async () => {
+      onClick={() => {
         try {
           setLoading(true)
-          await signIn("github", { callbackUrl: "/" });
+          signIn("github", { callbackUrl: "/" });
           toast.success("Signed in successfully");
         } catch (error) {
           toast.error("Something went wrong !!!");

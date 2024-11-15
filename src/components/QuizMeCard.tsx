@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { BrainCircuit } from 'lucide-react'
 

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { getServerAuthSession } from "~/server/auth";
 import { ArrowRightIcon} from 'lucide-react'
