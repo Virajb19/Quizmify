@@ -18,12 +18,15 @@ import { useToast } from "~/hooks/use-toast";
 import { ToastAction } from "../ui/toast";
 import { useRouter } from "nextjs-toploader/app";
 import { toast as Toast } from 'sonner'
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import LoadingQuestions from "../LoadingQuestions";
 
 type Input = z.infer<typeof quizCreationSchema>
 
 export default function QuizCreation() {
+
+  const [showLoader, setShowLoader] = useState(false);
+  const [finishedLoading, setFinishedLoading] = useState(false);
 
   const { toast } = useToast()
   const router = useRouter()
@@ -42,8 +45,17 @@ export default function QuizCreation() {
    })
 
    function onSubmit(data: Input) {
+
+    setShowLoader(true)
+
+    const timer = setTimeout(() => {
+        Toast.info('Please wait a little!!!', {duration: 2000})
+    }, 2000 * 5);
+
       getQuestions(data,{
         onError: (error) => {
+          setShowLoader(false)
+          clearTimeout(timer)
            if(error instanceof AxiosError) {
               if(error?.response?.status === 500 || error?.response?.status === 400) {
                   toast({title: 'Error', description: 'Something went wrong!!!. Try again',variant: 'destructive',
@@ -54,21 +66,23 @@ export default function QuizCreation() {
            }
         },
         onSuccess: ({gameId}: {gameId: string}) => {
+          setFinishedLoading(true)
+          clearTimeout(timer)
              setTimeout(() => {
                 if(form.getValues('type') === 'mcq') {
                     router.push(`/play/mcq/${gameId}`)
                 } else {
                   router.push(`/play/open-ended/${gameId}`)
                 }
-             },1000)
-           Toast.success('Successfully created the game')
+             },2000)
+           Toast.success('Successfully created the game', {position: 'bottom-right'})
         } 
       })
    }
 
    form.watch()
 
-   if(isPending) return <LoadingQuestions />
+   if(showLoader) return <LoadingQuestions finished={finishedLoading}/>
 
           return  <div className="relative w-full min-h-screen">
              <Card className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 mb:w-[90%]">

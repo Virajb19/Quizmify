@@ -6,5 +6,6 @@ type Props = { game: Game & { questions: Pick<Question, "id" | "options" | "ques
 
 export default function MCQ({game}: Props) {
     return <main className="flex-center w-full min-h-screen">
+           MCQ
         </main>
 }
