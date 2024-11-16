@@ -22,35 +22,35 @@ export async function POST(req: NextRequest) {
         const user = await db.user.findFirst({where: {OauthId: userId, OauthProvider: { in: ['GITHUB','GOOGLE']}}})
         // if(!user) return
 
-        await new Promise(res => setTimeout(res,5000))
+        await new Promise(res => setTimeout(res,5000 * 3))
 
         const parsedData = await quizCreationSchema.safeParseAsync(await req.json())
         if(!parsedData.success) return NextResponse.json({msg: 'Invalid inputs', errors: parsedData.error.flatten().fieldErrors}, {status: 400})
         const {topic, type, amount, level} = parsedData.data  
 
-        const game = await db.game.create({data: {topic,gameType: type,timeStarted: new Date(),level,userId: user?.id || parseInt(userId)}})
-        await db.topic_count.upsert({create: {topic,count: 1}, where: {topic}, update: { count: { increment: 1}}})
+        // const game = await db.game.create({data: {topic,gameType: type,timeStarted: new Date(),level,userId: user?.id || parseInt(userId)}})
+        // await db.topic_count.upsert({create: {topic,count: 1}, where: {topic}, update: { count: { increment: 1}}})
 
-        const questions = await getQuestions(topic,amount,type,level)
+        // const questions = await getQuestions(topic,amount,type,level)
 
-        await db.question.createMany({
-            data: questions.map((question: Question) => {
+        // await db.question.createMany({
+        //     data: questions.map((question: Question) => {
 
-                if(question.options) {
-                    question.options.sort(() => Math.random() - 0.5)
-                }
+        //         if(question.options) {
+        //             question.options.sort(() => Math.random() - 0.5)
+        //         }
 
-                return {
-                    question: question.question,
-                    questionType: type,
-                    correctAnswer: question.answer,
-                    options: question.options || [],
-                    gameId: game.id
-                }
-            })
-        })
+        //         return {
+        //             question: question.question,
+        //             questionType: type,
+        //             correctAnswer: question.answer,
+        //             options: question.options || [],
+        //             gameId: game.id
+        //         }
+        //     })
+        // })
 
-        return NextResponse.json({msg: 'Quiz game generated successfully',gameId: game.id}, {status: 200})
+        return NextResponse.json({msg: 'Quiz game generated successfully',gameId: 10}, {status: 200})
 
     } catch(err) {
         console.error(err)
@@ -58,6 +58,11 @@ export async function POST(req: NextRequest) {
     }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+   try{
 
+   } catch(err) {
+      console.error(err)
+      return NextResponse.json({msg: 'Error getting game'}, {status: 500})
+   }
 }
