@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
         if(!parsedData.success) return NextResponse.json({msg: 'Invalid inputs', errors: parsedData.error.flatten().fieldErrors}, {status: 400})
         const {topic, type, amount, level} = parsedData.data  
 
-        // await new Promise(res => setTimeout(res,3000))
+        // await new Promise(res => setTimeout(res,3000 * 3))
 
         // getQuestions must be called before creating a game in DB
         const questions = await getQuestions(topic,amount,type,level)

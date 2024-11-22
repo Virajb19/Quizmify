@@ -27,6 +27,7 @@ export default function QuizCreation() {
 
   const [showLoader, setShowLoader] = useState(false);
   const [finishedLoading, setFinishedLoading] = useState(false);
+  // use isPending 
 
   const { toast } = useToast()
   const router = useRouter()
@@ -50,7 +51,7 @@ export default function QuizCreation() {
 
     const timer = setTimeout(() => {
         Toast.info('Please wait a little!!!', {duration: 2000})
-    }, 2000 * 5);
+    }, 2000 * 7);
 
       getQuestions(data,{
         onError: (error) => {
@@ -68,6 +69,7 @@ export default function QuizCreation() {
         onSuccess: ({gameId}: {gameId: string}) => {
           setFinishedLoading(true)
           clearTimeout(timer)
+          // await new Promise(res => setTimeout(res,2000))
              setTimeout(() => {
                 if(form.getValues('type') === 'mcq') {
                     router.push(`/play/mcq/${gameId}`)
