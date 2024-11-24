@@ -39,6 +39,7 @@ export default function MCQ({game}: Props) {
     const currentQuestion = game.questions[quesIdx]
 
     useEffect(() => {
+      if(hasEnded) return
       const interval = setInterval(() => {
           if(!hasEnded) {
            setNow(new Date())

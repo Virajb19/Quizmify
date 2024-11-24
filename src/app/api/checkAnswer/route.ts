@@ -23,6 +23,8 @@ export async function POST(req: NextRequest) {
         await db.question.update({where: {id: question.id}, data: {isCorrect}})
 
         return NextResponse.json({msg: 'Checked the answer', isCorrect},{status: 200})
+    } else if(question.questionType === 'open_ended') {
+      
     }
 
   } catch (err) {
