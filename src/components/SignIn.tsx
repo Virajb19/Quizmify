@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'nextjs-toploader/app'
 import Link from 'next/link'
 import { twMerge } from 'tailwind-merge'
 import GithubSignInButton from './GithubSignInButton'

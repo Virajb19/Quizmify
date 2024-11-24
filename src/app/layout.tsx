@@ -24,8 +24,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={lexend.className} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning={true}>
+      <body className={lexend.className} suppressHydrationWarning={true}>
         <Providers>
          <SonnerToaster position="top-center" richColors />
          <Toaster />

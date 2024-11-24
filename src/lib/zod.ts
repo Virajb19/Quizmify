@@ -15,7 +15,7 @@ export const signInSchema = z.object({
 })
 
 export const quizCreationSchema = z.object({
-    topic: z.string().min(4, { message: 'Topic must be at least 4 characters long.'}).max(20).refine(async (topic) => {
+    topic: z.string().min(4, { message: 'Topic must be at least 4 characters long.'}).max(25).refine(async (topic) => {
         // try {
         //     const res = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${topic}`)
         //     return res.status === 200
@@ -27,4 +27,9 @@ export const quizCreationSchema = z.object({
     type: z.enum(['mcq', 'open_ended']),
     amount: z.number().int({message: 'Enter a integer value'}).min(1).max(10),
     level: z.enum(['easy','medium','hard'], {message: 'Please select a difficulty first'})
+})
+
+export const checkAnswerSchema = z.object({
+    questionId: z.string(),
+    userAnswer: z.string()
 })

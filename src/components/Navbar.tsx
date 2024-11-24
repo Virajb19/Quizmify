@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation"
 import { Loader2 } from 'lucide-react'
 import { motion } from 'framer-motion'
 
+
 export default function Navbar() { 
 
     const {data: session, status} = useSession()
