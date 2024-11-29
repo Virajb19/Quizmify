@@ -25,7 +25,7 @@ export const quizCreationSchema = z.object({
         return true
     }, { message: 'Topic is not a valid word'}),
     type: z.enum(['mcq', 'open_ended']),
-    amount: z.number().int({message: 'Enter a integer value'}).min(1).max(10),
+    amount: z.number().int({message: 'Enter a integer value'}).min(1).max(25),
     level: z.enum(['easy','medium','hard'], {message: 'Please select a difficulty first'})
 })
 

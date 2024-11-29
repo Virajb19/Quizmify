@@ -120,7 +120,7 @@ export default function QuizCreation() {
                      <FormItem className="flex flex-col gap-1">
                         <FormLabel>Number of Questions</FormLabel>
                         <FormControl>
-                           <input placeholder="How many questions?" type="number" min={1} max={10} className="input-style" {...field} onChange={e => form.setValue("amount", parseInt(e.target.value))} />
+                           <input placeholder="How many questions?" type="number" min={1} max={25} className="input-style" {...field} onChange={e => form.setValue("amount", parseInt(e.target.value))} />
                         </FormControl>
                         <FormDescription className="mb:text-[0.65rem]">
                       You can choose how many questions you would like to be
