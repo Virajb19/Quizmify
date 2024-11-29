@@ -15,7 +15,5 @@ export function formatTimeDelta(seconds: number) {
    if(minutes > 0) parts.push(`${minutes}m`)
    if(secs > 0) parts.push(`${secs}s`) 
 
-  console.log(parts.join(" "))
-
  return parts.join(" ")   
 }

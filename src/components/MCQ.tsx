@@ -155,7 +155,7 @@ export default function MCQ({game}: Props) {
                 <motion.div whileHover={isChecking ? {} : {scale: 1.05}} whileTap={isChecking ? {} : {scale: 0.9}} className={twMerge('group', isChecking && "cursor-not-allowed")}>
                 <Button disabled={isChecking || hasEnded} variant={'default'} onClick={handleNext} 
                  className={twMerge("mx-auto flex items-center font-bold", isChecking && "opacity-50")}>
-                {isChecking && <Loader2 className="animate-spin"/>} {isChecking ? 'Please wait' : 'Next'}
+                {isChecking && <Loader2 className="animate-spin"/>} {isChecking ? 'Checking...' : 'Next'}
                 {!isChecking && <ArrowRightToLine strokeWidth={3} className="size-4 group-hover:translate-x-1 duration-200"/>}
                 </Button>
                 </motion.div>

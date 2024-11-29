@@ -27,7 +27,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning={true}>
       <body className={lexend.className} suppressHydrationWarning={true}>
         <Providers>
-         <SonnerToaster position="top-center" richColors />
+         <SonnerToaster position="top-center" richColors theme="dark"/>
          <Toaster />
          <NextTopLoader height={4} color="#38bdf8" showSpinner={false} easing="ease"/>
          <Navbar />

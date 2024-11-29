@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     const session = await getServerAuthSession()
     if(!session?.user) return NextResponse.json({msg: 'Unauthorized'}, {status: 401})
 
-    // await new Promise(res => setTimeout(res,3000))
+    await new Promise(res => setTimeout(res,800))
 
     const parsedData = checkAnswerSchema.safeParse(await req.json())
     if(!parsedData.success) return NextResponse.json({msg: 'Invalid inputs', errors: parsedData.error.flatten().fieldErrors}, {status: 400})

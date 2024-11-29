@@ -86,8 +86,10 @@ export default function QuizCreation() {
 
    if(showLoader) return <LoadingQuestions finished={finishedLoading}/>
 
-          return  <div className="relative w-full min-h-screen">
-             <Card className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 mb:w-[90%]">
+          return  <div className="relative w-full min-h-screen flex-center">
+            <motion.div initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 260, damping: 20 }}>
+
+             <Card className="mb:w-[90%]">
                <CardHeader className="flex-center">
                    <CardTitle className="text-2xl font-bold">Quiz Creation</CardTitle>
                    <CardDescription>Choose a topic</CardDescription>
@@ -194,5 +196,6 @@ export default function QuizCreation() {
 
                  </CardContent>
                </Card>
+          </motion.div>
           </div>
 }
