@@ -11,7 +11,7 @@ type Props = {
 
 export default function TimeTakenCard({timeEnded, timeStarted}: Props) {
     return <Card className="md:col-span-2 col-span-10">
-        <CardHeader className="flex flex-row gap-2 items-center">
+        <CardHeader className="flex flex-row gap-2 items-center justify-between">
         <CardTitle className="font-semibold text-xl md:text-2xl">Time Taken</CardTitle>
         <Hourglass size={25}/>
         </CardHeader>
