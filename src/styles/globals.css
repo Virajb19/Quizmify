@@ -23,6 +23,10 @@ h3 {
   @apply outline-none px-4 py-2 bg-transparent placeholder:text-sm rounded-xl border focus:ring-2 focus:ring-blue-600 focus:border-transparent duration-200
 }
 
+.scrollbar {
+  @apply scrollbar-thin scrollbar-thumb-slate-700 hover:scrollbar-thumb-slate-600 scrollbar-corner-transparent scrollbar-track-transparent
+}
+
 @font-face {
   font-family: satoshi;
   src: url(../fonts/Satoshi-Regular.otf) format("opentype");

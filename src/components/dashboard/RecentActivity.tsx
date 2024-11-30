@@ -30,7 +30,7 @@ export default async function RecentActivity() {
           You have played a total of {games_count} quizzes.
         </CardDescription>
       </CardHeader>
-      <CardContent className="max-h-[600px] overflow-y-scroll scrollbar-thin scrollbar-thumb-slate-700 hover:scrollbar-thumb-slate-600 scrollbar-corner-transparent scrollbar-track-transparent">
+      <CardContent className="max-h-[600px] overflow-y-scroll scrollbar">
           <HistoryComponent limit={10} userId={user?.id || parseInt(userId)}/>
       </CardContent>
     </Card>

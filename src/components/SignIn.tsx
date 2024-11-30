@@ -23,7 +23,6 @@ export default function SignIn() {
     const router = useRouter()
 
     const [loading,setLoading] = useState(false)
-    // No need of loading state
 
     async function OnSubmit(data: SignInData) {
         setLoading(true)

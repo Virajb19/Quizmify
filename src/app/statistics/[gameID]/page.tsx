@@ -1,10 +1,8 @@
 import Link from "next/link"
 import { redirect } from "next/navigation"
-import { buttonVariants } from "~/components/ui/button"
 import { getServerAuthSession } from "~/server/auth"
 import { db } from "~/server/db"
 import { LucideLayoutDashboard } from 'lucide-react'
-import { cn } from "~/lib/utils"
 import ResultsCard from "~/components/statistics/ResultsCard"
 import AccuracyCard from "~/components/statistics/AccuracyCard"
 import TimeTakenCard from "~/components/statistics/TimeTakenCard"

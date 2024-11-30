@@ -7,11 +7,11 @@ export default async function HistoryComponent({limit, userId}: {limit: number, 
 
  const games = await db.game.findMany({take: limit, where: {userId}, orderBy: {timeStarted: 'desc'}})
 
-    return <div className="">
+    return <div className="space-y-1">
                {games.map((game,i) => {
                 return <div className="flex gap-7 p-1 items-center">
                      {game.gameType === 'mcq' ? <CopyCheck /> : <Edit2 />}
-                     <div className="flex flex-col p-1 gap-2 items-start">
+                     <div key={i} className="flex flex-col p-1 gap-2 items-start">
                          <Link className="text-sm font-semibold leading-none underline" href={`/statistics/${game.id}`}>{game.topic}</Link>
                          <span className="flex gap-1 items-center text-xs bg-slate-800 text-white p-1 rounded-lg">
                             <Clock className="size-5"/>
