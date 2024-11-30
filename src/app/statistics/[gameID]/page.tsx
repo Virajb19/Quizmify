@@ -10,7 +10,7 @@ import AccuracyCard from "~/components/statistics/AccuracyCard"
 import TimeTakenCard from "~/components/statistics/TimeTakenCard"
 import QuestionsList from "~/components/statistics/QuestionsList"
 
-export default async function statisticsPage({params: {gameID}}: {params: {gameID: string}}) {
+export default async function StatisticsPage({params: {gameID}}: {params: {gameID: string}}) {
 
     const session = await getServerAuthSession()
     if(!session?.user) return redirect('/')

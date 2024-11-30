@@ -23,12 +23,13 @@ export default function SignIn() {
     const router = useRouter()
 
     const [loading,setLoading] = useState(false)
+    // No need of loading state
 
     async function OnSubmit(data: SignInData) {
         setLoading(true)
         const result = await signIn('credentials',{email: data.email, password: data.password, redirect: false})
         setLoading(false)
-        if(!result?.error) {
+        if(!result?.error || result.ok) {
             toast.success('Signed in successfully')
             router.push('/')
         } else toast.error(result?.error, {duration: 3000})

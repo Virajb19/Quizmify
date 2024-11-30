@@ -1,8 +1,14 @@
+'use client'
+
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { History } from 'lucide-react'
+import { useRouter } from "nextjs-toploader/app";
 
 export default function HistoryCard() {
-    return <Card className="hover:cursor-pointer hover:opacity-75 hover:border-blue-600 border-2 duration-200">
+
+   const router = useRouter()
+
+    return <Card onClick={() => router.push('/history')} className="hover:cursor-pointer hover:opacity-75 hover:border-blue-600 border-2 duration-200">
          <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-3xl">History</CardTitle>
             <History size={20} strokeWidth={2.5} />
