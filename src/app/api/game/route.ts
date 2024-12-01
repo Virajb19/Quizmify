@@ -62,6 +62,18 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
    try{
 
+    const session = await getServerAuthSession()
+    if(!session?.user) return NextResponse.json({msg: 'Unauthorized'}, {status: 401})
+
+    const url = new URL(req.url)
+    const gameId = url.searchParams.get('gameID')
+    if(!gameId) return NextResponse.json({msg: 'Provide a game id'}, {status: 400})
+
+    const game = db.game.findUnique({where: {id: gameId}, include: {questions: true}})
+    if(!game) return NextResponse.json({msg: 'Game not found'}, {status: 404})
+
+    return NextResponse.json({game}, {status: 200})
+
    } catch(err) {
       console.error(err)
       return NextResponse.json({msg: 'Error getting game'}, {status: 500})

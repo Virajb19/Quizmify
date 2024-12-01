@@ -7,6 +7,8 @@ export default async function HistoryComponent({limit, userId}: {limit: number, 
 
  const games = await db.game.findMany({take: limit, where: {userId}, orderBy: {timeStarted: 'desc'}})
 
+ if(games.length === 0) return <h3 className="opacity-50">Create a Quiz</h3>
+
     return <div className="space-y-1">
                {games.map((game,i) => {
                 return <div className="flex gap-7 p-1 items-center">

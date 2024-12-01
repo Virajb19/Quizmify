@@ -39,13 +39,12 @@ export default function MCQ({game}: Props) {
     const currentQuestion = game.questions[quesIdx]
 
     useEffect(() => {
-      if(hasEnded) return
-      const interval = setInterval(() => {
-          if(!hasEnded) {
-           setNow(new Date())
-          }
-      },1000)
-
+      let interval: NodeJS.Timeout
+      if(!hasEnded) {
+         interval = setInterval(() => {
+             setNow(new Date())
+        },1000)
+      }
       return () => clearInterval(interval)
     },[hasEnded])
 
@@ -56,7 +55,7 @@ export default function MCQ({game}: Props) {
             }
             try {
                setIsChecking(true)
-               const { data : { isCorrect }} = await axios.post('/api/checkAnswer',{questionId: currentQuestion?.id, userAnswer: currentQuestion?.options[selectedOption]})
+              const { data : { isCorrect }} = await axios.post('/api/checkAnswer',{questionId: currentQuestion?.id, userAnswer: currentQuestion?.options[selectedOption]})
                if(isCorrect) {
                 setCorrectAnswers(prev => prev + 1)
                 Toast({title: 'Correct',description: 'You got it right!', variant: 'success'})
@@ -65,9 +64,11 @@ export default function MCQ({game}: Props) {
                 setWrongAnswers(prev => prev + 1)
                 Toast({title: 'Incorrect',description: 'You got it wrong!', variant: 'destructive'})
                }
+
               } catch(error) {
                  if(error instanceof AxiosError){
                     toast.error('Something went wrong!!!')
+                    return
                  }
               } finally {
                 setIsChecking(false)
@@ -107,7 +108,7 @@ export default function MCQ({game}: Props) {
          
    if(hasEnded) {
       return <div className="absolute flex flex-col gap-1 items-center -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-           <div className="border px-4 py-2 font-semibold text-white bg-green-500 rounded-md whitespace-nowrap">
+           <div className="border px-4 py-2 font-semibold text-white text-xl sm:text-2xl bg-green-800 rounded-md whitespace-nowrap">
               You Completed in {" "}
               {formatTimeDelta(differenceInSeconds(now, game.timeStarted))}
            </div>
@@ -154,7 +155,7 @@ export default function MCQ({game}: Props) {
 
                 <motion.div whileHover={isChecking ? {} : {scale: 1.05}} whileTap={isChecking ? {} : {scale: 0.9}} className={twMerge('group', isChecking && "cursor-not-allowed")}>
                 <Button disabled={isChecking || hasEnded} variant={'default'} onClick={handleNext} 
-                 className={twMerge("mx-auto flex items-center font-bold", isChecking && "opacity-50")}>
+                 className={twMerge("mx-auto flex items-center font-bold mt-1", isChecking && "opacity-50")}>
                 {isChecking && <Loader2 className="animate-spin"/>} {isChecking ? 'Checking...' : 'Next'}
                 {!isChecking && <ArrowRightToLine strokeWidth={3} className="size-4 group-hover:translate-x-1 duration-200"/>}
                 </Button>

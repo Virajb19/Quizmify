@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { checkAnswerSchema } from "~/lib/zod";
 import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
+import stringSimilarity from "string-similarity";
 
 export async function POST(req: NextRequest) {
   try{
@@ -23,8 +24,13 @@ export async function POST(req: NextRequest) {
         await db.question.update({where: {id: question.id}, data: {isCorrect}})
 
         return NextResponse.json({msg: 'Checked the answer', isCorrect},{status: 200})
+
     } else if(question.questionType === 'open_ended') {
-      
+       let percentageSimilar = stringSimilarity.compareTwoStrings(question.correctAnswer.toLowerCase().trim(), userAnswer.toLowerCase().trim())
+       percentageSimilar = Math.round(percentageSimilar * 100)
+       await db.question.update({where: {id: question.id}, data: {percentageCorrect: percentageSimilar}})
+
+       return NextResponse.json({msg: 'Checked the answer', percentageSimilar}, {status: 200})
     }
 
   } catch (err) {

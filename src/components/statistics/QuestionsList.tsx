@@ -18,6 +18,7 @@ export default function QuestionsList({questions}: { questions: Question[]}) {
           <TableHead>Question</TableHead>
           <TableHead>Correct Answer</TableHead>
           <TableHead>Your Answer</TableHead>
+          {questions[0]?.questionType === 'open_ended' && <TableHead className="text-right">Accuracy</TableHead>}
      </TableHeader>
      <TableBody>
          <>
@@ -34,9 +35,20 @@ export default function QuestionsList({questions}: { questions: Question[]}) {
                        <TableCell className={twMerge(isCorrect ? 'text-green-700': 'text-red-700')}>
                             {userAnswer}
                        </TableCell>
-                    ): (
-                        <></>
+                    ) : (
+                        <TableCell className="text-neutral-500">
+                           {userAnswer}
+                        </TableCell>
                     )}
+
+
+                    {/* questionType === 'open_ended' */}
+                    {percentageCorrect && 
+                    <TableCell className={twMerge(
+                       percentageCorrect < 50 && "text-red-600",
+                       percentageCorrect > 50 && percentageCorrect < 75 && "text-yellow-400",
+                       percentageCorrect > 75 && 'text-green-500'
+                    )}>{percentageCorrect}%</TableCell>}
              </TableRow>
            })}
          </>
