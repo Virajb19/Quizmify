@@ -93,7 +93,7 @@ export default function OpenEnded({game}: Props) {
 
     if(hasEnded) {
         return <div className="absolute flex flex-col gap-1 items-center -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-             <div className="border px-4 py-2 font-semibold text-white text-xl sm:text-2xl bg-green-800 rounded-md whitespace-nowrap">
+             <div className="border px-4 py-2 font-semibold text-white text-lg sm:text-2xl bg-green-800 rounded-md whitespace-nowrap">
                 You Completed in {" "}
                 {formatTimeDelta(differenceInSeconds(now, game.timeStarted))}
              </div>

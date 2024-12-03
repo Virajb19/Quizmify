@@ -10,7 +10,7 @@ export const signUpSchema = z.object({
 
 export const signInSchema = z.object({
     email: z.string().email({message: 'Please enter a valid URL'}).trim(),
-    password: z.string().min(8, {message: 'Password must be atleast 8 letters long'}).max(15)
+    password: z.string().min(8, {message: 'Password must be atleast 8 letters long'}).max(15, { message: 'Password cannot exceed 15 characters'})
               .regex(/^(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/, {message: 'Password must contain atleast one special char and one number'})
 })
 

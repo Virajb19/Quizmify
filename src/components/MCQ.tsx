@@ -39,13 +39,13 @@ export default function MCQ({game}: Props) {
     const currentQuestion = game.questions[quesIdx]
 
     useEffect(() => {
-      let interval: NodeJS.Timeout
+      // let interval: NodeJS.Timeout
       if(!hasEnded) {
-         interval = setInterval(() => {
+         const interval = setInterval(() => {
              setNow(new Date())
         },1000)
+        return () => clearInterval(interval)
       }
-      return () => clearInterval(interval)
     },[hasEnded])
 
     async function handleNext() {
@@ -108,7 +108,7 @@ export default function MCQ({game}: Props) {
          
    if(hasEnded) {
       return <div className="absolute flex flex-col gap-1 items-center -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-           <div className="border px-4 py-2 font-semibold text-white text-xl sm:text-2xl bg-green-800 rounded-md whitespace-nowrap">
+           <div className="border px-4 py-2 font-semibold text-white text-lg sm:text-2xl bg-green-800 rounded-md whitespace-nowrap">
               You Completed in {" "}
               {formatTimeDelta(differenceInSeconds(now, game.timeStarted))}
            </div>

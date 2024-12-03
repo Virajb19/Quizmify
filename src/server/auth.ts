@@ -101,10 +101,11 @@ import {
           await db.user.update({where: {id: user.id}, data: {lastLogin: new Date()}})
   
           return {id: user.id.toString(), name: user.username, email: user.email}
+
   } catch(e) {
     console.error(e)
     if(e instanceof Error) throw new Error(e.message)
-    else { throw new Error('Something went wrong !!!')}
+    else throw new Error('Something went wrong !!!')
   }
         }
        }) ,
