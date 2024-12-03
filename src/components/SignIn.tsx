@@ -13,6 +13,7 @@ import GithubSignInButton from './GithubSignInButton'
 import { signInSchema } from '~/lib/zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TriangleAlert } from 'lucide-react';
+import GoogleSignInButton from './GoogleSignInButton'
 
 
 type SignInData =  {
@@ -57,6 +58,7 @@ export default function SignIn() {
                    </div>
            
                    <GithubSignInButton text='Sign in with Github'/>
+                   <GoogleSignInButton text='Sign in with Google'/>
 
                      <div className='flex p-1 gap-1 text-sm'>
                          <p className=''>Don't have an account ?</p>

@@ -6,9 +6,14 @@
 /** @type {import("next").NextConfig} */
 const config = {
     images: {
-        remotePatterns: [{
-            hostname: 'avatars.githubusercontent.com'
-        }]
+        remotePatterns: [
+        {
+            hostname: "avatars.githubusercontent.com"
+        }, 
+        {
+            hostname: "lh3.googleusercontent.com"
+        }
+    ]
     },
     typescript: {
         ignoreBuildErrors: true

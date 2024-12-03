@@ -13,6 +13,7 @@ import GithubSignInButton from '~/components/GithubSignInButton'
 import { z } from 'zod'
 import { signUpSchema } from '~/lib/zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import GoogleSignInButton from '~/components/GoogleSignInButton'
  
 // type SignUpData =  {
 //     username: string,
@@ -58,9 +59,9 @@ export default function Signup() {
   }
 
     return <main className="w-full min-h-screen flex-center">
-               <div id="signup" className="flex flex-col p-2 gap-3 rounded-xl items-center w-[90%] md:w-1/2 lg:w-[30%] py-5 border dark:bg-card">
-                     <h2 className="text-center mb:text-5xl tb:text-6xl">Sign up</h2>
-                     <form className="flex flex-col p-1 gap-3 w-3/4 mb:w-full items-center" onSubmit={handleSubmit(onSubmit)}>
+               <div id="signup" className="flex flex-col p-2 gap-1 rounded-xl items-center w-[90%] md:w-1/2 lg:w-[30%] py-5 border dark:bg-card">
+                     <h2 className="text-center mb:text-5xl tb:text-6xl mb-2">Sign up</h2>
+                     <form className="flex flex-col p-1 gap-1 w-3/4 mb:w-full items-center" onSubmit={handleSubmit(onSubmit)}>
                            <Input text='username' register={register} errors={error?.username || [errors?.username?.message || ""]}/>
                            <Input text='email' register={register} errors={error?.email || [errors?.email?.message || ""]}/>
                            <Input text='password' register={register} errors={error?.password || [errors?.password?.message || ""]}/>
@@ -75,6 +76,7 @@ export default function Signup() {
                    </div>
            
                    <GithubSignInButton text="Sign up with Github"/>
+                   <GoogleSignInButton text='Sign up with Google'/>
 
                      <div className='flex p-1 gap-1 text-sm'>
                        <p>Already has an account ?</p>

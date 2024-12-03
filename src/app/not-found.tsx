@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Button } from '../components/ui/button';
-import { AlertTriangle } from 'lucide-react'
+import {Home, AlertTriangle } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 const NotFound = () => {
@@ -19,7 +19,8 @@ const NotFound = () => {
         <p className="mb-8 text-lg text-muted-foreground md:text-xl">
           Oops! The page you're looking for doesn't exist.
         </p>
-        <Button asChild size="lg" className='font-semibold'>
+        <Button size="lg" className='font-semibold py-2 px-4'>
+          <Home className='h-5 w-5' strokeWidth={3}/>
           <Link href="/">Go Back Home</Link>
         </Button>
       </main>
