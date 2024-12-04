@@ -40,34 +40,30 @@ import {
       },
       signIn: async ({ user, account, profile}) => {
        try {
-          const existingUser = await db.user.findFirst({where: {OR: [{email: user?.email!}, {OauthId: user?.id}]}})
+          
+         if(account?.provider && profile) {
 
-          if(existingUser) {
-            await db.user.update({where: {id: existingUser?.id}, data: {lastLogin: new Date()}})
-          } else {
-              if(account?.provider === 'github' && profile) {
-                await db.user.create({
-                  data: {
-                    username: user.name ?? "unknown",
-                    email: user.email as string,
-                    ProfilePicture: user.image,
-                    OauthId: user.id,
-                    OauthProvider: 'GITHUB'
-                }
-              })      
-            }
-             if(account?.provider === 'google' && profile) {
+          const provider = account.provider === 'github' ? 'GITHUB' : 'GOOGLE'
+           
+           const existingUser = await db.user.findFirst({where: { OR: [{email: user.email!}, {OauthId: user.id}]}})
+           if(existingUser) {
+             await db.user.update({
+              where: {id: existingUser.id},
+              data: {lastLogin: new Date(), username: user.name ?? undefined, email: user.email ?? undefined, ProfilePicture: user.image, OauthProvider: provider, OauthId: user.id}
+             })
+           } else {
               await db.user.create({
                 data: {
                   username: user.name ?? "unknown",
-                  email: user.email as string,
+                  email: user.email ?? "unknown",
                   ProfilePicture: user.image,
                   OauthId: user.id,
-                  OauthProvider: 'GOOGLE'
-              }
-            })  
-             }
-          } 
+                  OauthProvider: provider
+                }
+              })
+           }     
+         }
+
           return true
        } catch(e) {
         console.log(e)

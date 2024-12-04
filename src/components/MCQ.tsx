@@ -39,12 +39,14 @@ export default function MCQ({game}: Props) {
     const currentQuestion = game.questions[quesIdx]
 
     useEffect(() => {
-      // let interval: NodeJS.Timeout
+      let interval: NodeJS.Timeout | null = null
       if(!hasEnded) {
-         const interval = setInterval(() => {
+          interval = setInterval(() => {
              setNow(new Date())
         },1000)
-        return () => clearInterval(interval)
+      }
+      return () => {
+        if(interval) clearInterval(interval)
       }
     },[hasEnded])
 

@@ -83,11 +83,14 @@ export default function OpenEnded({game}: Props) {
       }, [handleNext]);
 
     useEffect(() => {
+      let interval: NodeJS.Timeout | null = null
         if (!hasEnded) {
-          const interval = setInterval(() => {
-            setNow(new Date());
-          }, 1000);
-          return () => clearInterval(interval);
+           interval = setInterval(() => {
+            setNow((prev) => new Date())
+          }, 1000)
+        }
+        return () => {
+          if(interval) clearInterval(interval)
         }
       }, [hasEnded]);
 
