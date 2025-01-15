@@ -13,7 +13,7 @@ import {
 export default function QuestionsList({questions}: { questions: Question[]}) {
     return <Table className="border border-blue-700 mt-4">
      <TableCaption>End of list.</TableCaption>
-     <TableHeader>
+     <TableHeader className="text-lg">
           <TableHead className="w-[10px]">No.</TableHead>
           <TableHead>Question</TableHead>
           <TableHead>Correct Answer</TableHead>

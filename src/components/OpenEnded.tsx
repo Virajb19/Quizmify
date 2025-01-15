@@ -3,7 +3,7 @@
 import { Game, Question } from "@prisma/client";
 import { differenceInSeconds } from "date-fns";
 import { ArrowRightToLine, BarChart, Loader2, Timer } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useToast } from "~/hooks/use-toast";
 import { cn, formatTimeDelta } from "~/lib/utils";
 import OpenEndedPercentage from "./OpenEndedPercentage";
@@ -15,7 +15,10 @@ import BlankAnswerInput from "./BlankAnswerInput";
 import Link from "next/link";
 import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
-import { endGame } from "~/actions/endGame";
+import { endGame } from "~/server/actions";
+import { useMutation } from "@tanstack/react-query";
+import { z } from "zod";
+import { checkAnswerSchema } from "~/lib/zod";
 
 type Props = { game: Game & { questions: Pick<Question, "id" | "correctAnswer" | "question">[] }}  
 
@@ -30,11 +33,12 @@ export default function OpenEnded({game}: Props) {
     const [blankAnswer, setBlankAnswer] = useState("")
     const [averagePercentage, setAveragePercentage] = useState(0)
 
-    const [isChecking,setIsChecking] = useState<boolean>(false)
+    const currentQuestion = useMemo(() => {
+      return game.questions[quesIdx]
+    }, [quesIdx, game.questions])
 
-    const currentQuestion = game.questions[quesIdx]
-
-    async function handleNext() {
+    const {mutateAsync: checkAnswer, isPending: isChecking} = useMutation({
+      mutationFn: async () => {
         let filledAnswer = blankAnswer
         document.querySelectorAll('#user-blank-input').forEach((Input) => {
 
@@ -43,31 +47,55 @@ export default function OpenEnded({game}: Props) {
             input.value = ""
         })
 
-        try {
-        setIsChecking(true)
-         const { data: { percentageSimilar }} = await axios.post('/api/checkAnswer', {questionId: currentQuestion?.id, userAnswer: filledAnswer})
-         Toast({title: `Your answer is ${percentageSimilar}% similar to correct answer`, variant: 'success'})
-          setAveragePercentage(prev => {
-            return ( prev + percentageSimilar) / (quesIdx + 1)
-          })
+         const payload: z.infer<typeof checkAnswerSchema> = {
+           questionId: currentQuestion?.id as string,
+           userAnswer: filledAnswer
+         }
 
-        } catch(err) {
-           if(err instanceof AxiosError) {
-             toast.error(err.response?.data.msg, { position: 'bottom-right'})
-             return
-           }
-        } finally {
-           setIsChecking(false)
-        }
+         const { data: { percentageSimilar }} = await axios.post('/api/checkAnswer', payload) 
+         return percentageSimilar
+      },
+      // onSuccess: (percentageSimilar: number) => {
+      //     Toast({title: `Your answer is ${percentageSimilar}% similar to correct answer`, variant: 'success'})
+      //     setAveragePercentage(prev => {
+      //       return ( prev + percentageSimilar) / (quesIdx + 1)
+      //     })
+      // },
+      // onError: (err) => {
+      //    console.error(err)
+      //    if(err instanceof AxiosError) {
+      //       toast.error(err.response?.data.msg, { position: 'bottom-right'})
+      //       return
+      //   }
+      // }
+    })
+
+    const handleNext = useCallback(async () => {
       
-        if(quesIdx === game.questions.length - 1) {
-            await endGame(game.id)
-            setHasEnded(true)
-            return
+        await checkAnswer(undefined, {
+          onSuccess: async (percentageSimilar: number) => {
+            Toast({title: `Your answer is ${percentageSimilar}% similar to correct answer`, variant: 'success'})
+            setAveragePercentage(prev => {
+              return ( prev + percentageSimilar) / (quesIdx + 1)
+            })
+            if(quesIdx === game.questions.length - 1) {
+              await endGame(game.id)
+              setHasEnded(true)
+              return
+          }
+  
+          setQuesIdx(prev => prev + 1)
+        },
+         onError: (err) => {
+           console.error(err)
+           if(err instanceof AxiosError) {
+              toast.error(err.response?.data.msg, { position: 'bottom-right'})
+              return
+          }
         }
+        })
 
-        setQuesIdx(prev => prev + 1)
-    }
+    }, [game.questions.length, quesIdx ,endGame, checkAnswer])
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -82,17 +110,16 @@ export default function OpenEnded({game}: Props) {
         };
       }, [handleNext]);
 
-    useEffect(() => {
-      let interval: NodeJS.Timeout | null = null
-        if (!hasEnded) {
-           interval = setInterval(() => {
-            setNow((prev) => new Date())
-          }, 1000)
-        }
+      useEffect(() => {
+        const interval = setInterval(() => {
+            if(!hasEnded) {
+               setNow(new Date())
+            }
+        }, 1000)
         return () => {
           if(interval) clearInterval(interval)
         }
-      }, [hasEnded]);
+      },[hasEnded])
 
     if(hasEnded) {
         return <div className="absolute flex flex-col gap-1 items-center -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
@@ -107,14 +134,14 @@ export default function OpenEnded({game}: Props) {
      }
 
     return <div className="flex-center w-full min-h-screen">
-               <div className="flex flex-col gap-1 p-1 w-[90vw] md:w-[80vw] lg:w-1/2 max-w-5xl mb:text-sm">
+               <div className="flex flex-col gap-1 p-1 w-[90vw] md:w-[80vw] lg:w-1/2 max-w-5xl mb:text-sm z-30">
                <div className="flex justify-between">
                    <div id="timer" className="flex flex-col gap-1">
                         <p className="flex flex-wrap justify-start gap-2">
                             <span className="dark:text-slate-400">Topic</span>
                             <span className="bg-black dark:bg-white dark:text-black dark:font-semibold rounded-lg px-2 py-1 text-white">{game.topic}</span>
                         </p>
-                        <div className="flex gap-1 text-slate-400 mt-2 items-center">
+                        <div className="flex gap-1 text-slate-400 mt-2 items-center font-semibold">
                             <Timer />
                             {formatTimeDelta(differenceInSeconds(now, game.timeStarted))}
                         </div>
@@ -128,7 +155,7 @@ export default function OpenEnded({game}: Props) {
                           <span className="border-b-2 border-zinc-600">Q.{quesIdx + 1}</span>
                           <span className="text-slate-500">{game.questions.length}</span>
                       </CardTitle>
-                      <CardDescription className="mb:w-full">{currentQuestion?.question}</CardDescription>
+                      <CardDescription className="mb:w-full text-base font-semibold">{currentQuestion?.question}</CardDescription>
                    </CardHeader>
                 </Card>
 

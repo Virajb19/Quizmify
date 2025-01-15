@@ -1,13 +1,12 @@
 import "~/styles/globals.css";
 
 import { type Metadata } from "next";
-import { Toaster as SonnerToaster} from 'sonner'
 import { Toaster} from "~/components/ui/toaster"
 import Providers from "./providers";
 import NextTopLoader from 'nextjs-toploader';
-import { Lexend } from 'next/font/google';
+import { DM_Sans } from 'next/font/google';
 import Navbar from "~/components/Navbar";
-
+import BackGround from "~/components/BackGround";
 
 export const metadata: Metadata = {
   title: "Quizmify",
@@ -15,23 +14,23 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-const lexend = Lexend({
+const sans = DM_Sans({
   subsets: ['latin'],
-  weight: ['400', '700'], 
-});
+  weight: ['500','800']
+})
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body className={lexend.className} suppressHydrationWarning={true}>
+      <body className={sans.className} suppressHydrationWarning={true}>
         <Providers>
-         <SonnerToaster position="top-center" richColors theme="dark"/>
          <Toaster />
+         <BackGround />
          <NextTopLoader height={4} color="#38bdf8" showSpinner={false} easing="ease"/>
          <Navbar />
-         {children}
+          {children}
          </Providers>
       </body>
     </html>

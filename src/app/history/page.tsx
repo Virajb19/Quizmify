@@ -12,7 +12,7 @@ export default async function HistoryPage() {
    if(!session?.user) redirect('/')
    const userId = session.user.id
 
-   const user = await db.user.findFirst({where: {OauthId: userId}})
+   const user = await db.user.findFirst({where: {id: userId}})
 
     return <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-[90%] sm:w-1/2 lg:w-1/3 max-w-4xl">
             <Card>
@@ -24,7 +24,7 @@ export default async function HistoryPage() {
                 </Link>
                 </CardHeader>
                 <CardContent className="max-h-[60vh] overflow-y-scroll scrollbar">
-                   <HistoryComponent limit={100} userId={user?.id || parseInt(userId)}/>
+                   <HistoryComponent limit={100} userId={userId}/>
                 </CardContent>
             </Card>
         </div>

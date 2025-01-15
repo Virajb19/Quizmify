@@ -38,14 +38,14 @@ export default function QuizCreation() {
       defaultValues: { topic: "NextJS", type: "mcq", amount: 3, level: "hard"}
    })
 
-   const {mutate: getQuestions, isPending} = useMutation({
-    mutationFn: async ({topic,type,amount,level}: Input) => {
-        const res = await axios.post('/api/game', {topic,type,amount,level})
+   const {mutateAsync: createGame, isPending} = useMutation({
+    mutationFn: async (data: Input) => {
+        const res = await axios.post('/api/game', data)
         return res.data
     }
    })
 
-   function onSubmit(data: Input) {
+  async function onSubmit(data: Input) {
 
     setShowLoader(true)
 
@@ -53,7 +53,7 @@ export default function QuizCreation() {
         Toast.info('Please wait a little!!!', {duration: 2000})
     }, 2000 * 7);
 
-      getQuestions(data,{
+     await createGame(data,{
         onError: (error) => {
           setShowLoader(false)
           clearTimeout(timer)
@@ -86,13 +86,13 @@ export default function QuizCreation() {
 
    if(showLoader) return <LoadingQuestions finished={finishedLoading}/>
 
-          return  <div className="relative w-full min-h-screen flex-center">
-            <motion.div initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 260, damping: 20 }}>
+          return  <div className="relative w-full min-h-screen flex-center overflow-hidden">
+            <motion.div initial={{ scale: 0.86, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", bounce: 0.7 }} className="mb:absolute mb:left-5">
 
              <Card className="mb:w-[90%]">
                <CardHeader className="flex-center">
-                   <CardTitle className="text-2xl font-bold">Quiz Creation</CardTitle>
-                   <CardDescription>Choose a topic</CardDescription>
+                   <CardTitle className="text-4xl font-bold">Quiz Creation</CardTitle>
+                   <CardDescription className="text-xl">Choose a topic</CardDescription>
                  </CardHeader>
                  <CardContent>
 
@@ -102,11 +102,11 @@ export default function QuizCreation() {
                     <FormField  control={form.control} name="topic"
                    render={({ field }) => (
                   <FormItem className="flex flex-col gap-1">
-                    <FormLabel>Topic</FormLabel>
+                    <FormLabel className="text-lg">Topic</FormLabel>
                     <FormControl>
                       <input placeholder="Enter a topic" {...field} className="input-style"/>
                     </FormControl>
-                    <FormDescription className="mb:text-[0.65rem]">
+                    <FormDescription className="mb:text-xs text-base">
                       Please provide any topic you would like to be quizzed on
                       here.
                     </FormDescription>
@@ -118,11 +118,11 @@ export default function QuizCreation() {
                 <FormField control={form.control} name="amount" 
                  render={({ field }) => (
                      <FormItem className="flex flex-col gap-1">
-                        <FormLabel>Number of Questions</FormLabel>
+                        <FormLabel className="text-lg">Number of Questions</FormLabel>
                         <FormControl>
                            <input placeholder="How many questions?" type="number" min={1} max={25} className="input-style" {...field} onChange={e => form.setValue("amount", parseInt(e.target.value))} />
                         </FormControl>
-                        <FormDescription className="mb:text-[0.65rem]">
+                        <FormDescription className="mb:text-xs text-base">
                       You can choose how many questions you would like to be
                       quizzed on here.
                     </FormDescription>
@@ -136,7 +136,7 @@ export default function QuizCreation() {
                           name="level"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Difficulty</FormLabel>
+                              <FormLabel className="text-lg">Difficulty</FormLabel>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                   <SelectTrigger>
@@ -156,7 +156,7 @@ export default function QuizCreation() {
                                   })}
                                 </SelectContent>
                               </Select>
-                              <FormDescription className="mb:text-[0.65rem]">
+                              <FormDescription className="mb:text-sm text-base">
                                  Provide difficulty level
                               </FormDescription>
                               <FormMessage />
@@ -167,13 +167,13 @@ export default function QuizCreation() {
 
                 <div id="buttons" className="flex w-full justify-center">
 
-                   <Button onClick={() => form.setValue('type','mcq')} variant={ form.getValues("type") === "mcq" ? "default" : "secondary"} type="button" className="rounded-none rounded-l-lg">
+                   <Button onClick={() => form.setValue('type','mcq')} variant={ form.getValues("type") === "mcq" ? "default" : "secondary"} type="button" className="rounded-none rounded-l-lg text-base font-semibold">
                      <CopyCheck className="ml-2 size-5"/> Multiple Choice
                      </Button>
 
                     <Separator orientation="vertical"/>
 
-                   <Button onClick={() => form.setValue('type','open_ended')} variant={ form.getValues('type') === 'open_ended' ? "default" : "secondary"} type="button" className="rounded-none rounded-r-lg">
+                   <Button onClick={() => form.setValue('type','open_ended')} variant={ form.getValues('type') === 'open_ended' ? "default" : "secondary"} type="button" className="rounded-none rounded-r-lg text-base">
                      <BookOpen className="size-5"/> Open ended
                      </Button>
 
@@ -184,11 +184,13 @@ export default function QuizCreation() {
                             buttonRef.current.click()
                         }
                       }} 
-                        ref={buttonRef} disabled={isPending} type="submit" whileHover={isPending ? {} : {scale: 1.05}} whileTap={isPending ? {} : {scale: 0.9}}
-                        className={twMerge("border bg-black text-white cursor-pointer dark:bg-white dark:text-black rounded-lg text-lg font-semibold w-fit py-1 px-3 flex items-center gap-1 mx-auto mt-10", 
-                        isPending && "opacity-50 cursor-not-allowed"
-                      )}>
-                        {isPending && <Loader2 className="animate-spin"/>} {isPending ? 'Please wait' : 'Submit'}
+                        ref={buttonRef} disabled={form.formState.isSubmitting} type="submit" whileHover={isPending ? {} : {scale: 1.05}} whileTap={isPending ? {} : {scale: 0.9}}
+                        className="border bg-black text-white cursor-pointer dark:bg-white dark:text-black rounded-lg text-lg font-semibold w-fit py-1 px-3 flex items-center gap-2 mx-auto mt-10 disabled:opacity-60 disabled:cursor-not-allowed">
+                        {form.formState.isSubmitting ? (
+                            <>
+                              <Loader2 className="animate-spin"/> Please wait
+                            </>
+                        ) : 'Submit'}
                     </motion.button>
                     
                     </form>

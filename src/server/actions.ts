@@ -1,20 +1,16 @@
 'use server'
 
-import { signUpSchema } from "~/lib/zod"
+import { SignUpSchema } from "~/lib/zod"
 import bcrypt from 'bcrypt'
 import { db } from "~/server/db"
 import { z } from 'zod'
+import { getServerAuthSession } from "./auth"
 
-// type formData = z.infer<typeof signUpSchema>
-type formData = {
-    username: string;
-    email: string;
-    password: string;
-}
+type formData = z.infer<typeof SignUpSchema>
 
 export async function signup(formData: formData) {
  try {
-    const parsedData = signUpSchema.safeParse(formData)
+    const parsedData = SignUpSchema.safeParse(formData)
     if(!parsedData.success) return {success: false, errors: parsedData.error.flatten().fieldErrors}
     const {username, email, password} = parsedData.data
 
@@ -30,4 +26,23 @@ export async function signup(formData: formData) {
     return {success: false, error: 'Something went wrong !'}
  }
 
+}
+
+export async function endGame(gameId: string) {
+    try {
+
+    const session = await getServerAuthSession()
+    if(!session || !session.user) return { error: 'Unauthorized'}
+
+    const game = await db.game.findUnique({where: {id: gameId}})
+    if(!game) return {msg: 'Game not found'}
+
+    await db.game.update({where: {id: game.id}, data: {timeEnded: new Date()}})
+
+    return { msg: 'Game ended successfully'}
+
+    } catch(err) {
+        console.error('Error ending game',err)
+        return {error: 'Error while ending game'}
+    }
 }

@@ -70,7 +70,7 @@ model Question {
   isCorrect Boolean?
 
   gameId String
-  game Game @relation(fields: [gameId],references: [id])
+  game Game @relation(fields: [gameId],references: [id], onDelete: Cascade)
 
   @@index([gameId])
 }

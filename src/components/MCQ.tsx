@@ -5,7 +5,7 @@ import { Timer, ArrowRightToLine, Loader2, BarChart  } from "lucide-react";
 import { differenceInSeconds } from 'date-fns'
 import { cn, formatTimeDelta } from '../lib/utils'
 import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button, buttonVariants } from "./ui/button";
 import MCQCounter from "./MCQCounter";
 import axios, { AxiosError } from "axios";
@@ -14,8 +14,8 @@ import { motion } from 'framer-motion'
 import { useToast } from "~/hooks/use-toast";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
-import { setInterval } from "timers";
-import { endGame } from "~/actions/endGame";
+import { endGame } from "~/server/actions";
+import { useMutation } from "@tanstack/react-query";
 
 type Props = { game: Game & { questions: Pick<Question, "id" | "options" | "question">[] }}  
 
@@ -34,57 +34,82 @@ export default function MCQ({game}: Props) {
     const [hasEnded,setHasEnded] = useState<boolean>(false)
     const [now,setNow] = useState(new Date())
 
-    const [isChecking,setIsChecking] = useState<boolean>(false)
+    // const [isChecking,setIsChecking] = useState<boolean>(false)
 
     const currentQuestion = game.questions[quesIdx]
 
     useEffect(() => {
-      let interval: NodeJS.Timeout | null = null
-      if(!hasEnded) {
-          interval = setInterval(() => {
+      const interval = setInterval(() => {
+          if(!hasEnded) {
              setNow(new Date())
-        },1000)
-      }
+          }
+      }, 1000)
       return () => {
         if(interval) clearInterval(interval)
       }
     },[hasEnded])
 
-    async function handleNext() {
-            if(selectedOption === -1) {
-                toast.error('Please select an option before proceeding!')
-                return
-            }
-            try {
-               setIsChecking(true)
-              const { data : { isCorrect }} = await axios.post('/api/checkAnswer',{questionId: currentQuestion?.id, userAnswer: currentQuestion?.options[selectedOption]})
-               if(isCorrect) {
-                setCorrectAnswers(prev => prev + 1)
-                Toast({title: 'Correct',description: 'You got it right!', variant: 'success'})
-               }
-               else {
-                setWrongAnswers(prev => prev + 1)
-                Toast({title: 'Incorrect',description: 'You got it wrong!', variant: 'destructive'})
-               }
-
-              } catch(error) {
-                 if(error instanceof AxiosError){
-                    toast.error('Something went wrong!!!')
-                    return
-                 }
-              } finally {
-                setIsChecking(false)
-              }
-            
-            if(quesIdx === game.questions.length - 1) {
-               const res = await endGame(game.id)
-               setHasEnded(true)
-               return
-            }
-            
-            setQuesIdx(prev => prev + 1)
-            setSelectedOption(-1)
+    const {mutateAsync: checkAnswer, isPending: isChecking} = useMutation({
+      mutationFn: async () => {
+        const { data : { isCorrect }} = await axios.post('/api/checkAnswer',{questionId: currentQuestion?.id, userAnswer: currentQuestion?.options[selectedOption]})
+        return isCorrect
+      }, 
+      onSuccess: async (isCorrect: boolean) => {
+        if(isCorrect) {
+              setCorrectAnswers(prev => prev + 1)
+              Toast({title: 'Correct',description: 'You got it right!', variant: 'success'})
+             }
+          else {
+              setWrongAnswers(prev => prev + 1)
+              Toast({title: 'Incorrect',description: 'You got it wrong!', variant: 'destructive'})
           }
+
+          if(quesIdx === game.questions.length - 1) {
+            const res = await endGame(game.id)
+            setHasEnded(true)
+            return
+          }
+          
+          setQuesIdx(prev => prev + 1)
+          setSelectedOption(-1)
+      },
+      onError: (error) => {
+        if(error instanceof AxiosError){
+            toast.error('Something went wrong!!!')
+            return
+         }
+      }
+    })
+
+    const handleNext = useCallback(async () => {
+          if(selectedOption === -1) {
+            toast.error('Please select an option before proceeding!')
+            return
+          }
+
+        await checkAnswer()
+    // try {
+    //    setIsChecking(true)
+    //   const { data : { isCorrect }} = await axios.post('/api/checkAnswer',{questionId: currentQuestion?.id, userAnswer: currentQuestion?.options[selectedOption]})
+    //    if(isCorrect) {
+    //     setCorrectAnswers(prev => prev + 1)
+    //     Toast({title: 'Correct',description: 'You got it right!', variant: 'success'})
+    //    }
+    //    else {
+    //     setWrongAnswers(prev => prev + 1)
+    //     Toast({title: 'Incorrect',description: 'You got it wrong!', variant: 'destructive'})
+    //    }
+
+    //   } catch(error) {
+    //      if(error instanceof AxiosError){
+    //         toast.error('Something went wrong!!!')
+    //         return
+    //      }
+    //   } finally {
+    //     setIsChecking(false)
+    //   }
+    
+    }, [quesIdx, game.questions.length, endGame, checkAnswer, selectedOption])
 
           useEffect(() => {
             const handleKeyDown = (event: KeyboardEvent) => {
@@ -121,14 +146,14 @@ export default function MCQ({game}: Props) {
    }
 
     return <div className="flex-center w-full min-h-screen">
-             <div className="flex flex-col gap-1 p-1 w-[90vw] md:w-[80vw] lg:w-1/2 max-w-5xl mb:text-sm">
+             <div className="flex flex-col gap-1 p-1 w-[90vw] md:w-[80vw] lg:w-1/2 max-w-5xl mb:text-sm z-30">
                 <div className="flex justify-between">
                    <div id="timer" className="flex flex-col gap-1">
                         <p className="flex flex-wrap justify-start gap-2">
                             <span className="dark:text-slate-400">Topic</span>
                             <span className="bg-black dark:bg-white dark:text-black dark:font-semibold rounded-lg px-2 py-1 text-white">{game.topic}</span>
                         </p>
-                        <div className="flex gap-1 text-slate-400 mt-2 items-center">
+                        <div className="flex gap-1 text-slate-400 mt-2 items-center font-semibold">
                             <Timer />
                             {formatTimeDelta(differenceInSeconds(now, game.timeStarted))}
                         </div>
@@ -141,7 +166,7 @@ export default function MCQ({game}: Props) {
                           <span className="border-b-2 border-zinc-600">Q.{quesIdx + 1}</span>
                           <span className="text-slate-500">{game.questions.length}</span>
                       </CardTitle>
-                      <CardDescription className="mb:w-full">{currentQuestion?.question}</CardDescription>
+                      <CardDescription className="mb:w-full ml-1 font-semibold text-base">{currentQuestion?.question}</CardDescription>
                    </CardHeader>
                 </Card>
                 <div id="options" className="flex flex-col gap-1 mt-2">
@@ -149,7 +174,7 @@ export default function MCQ({game}: Props) {
                           return <Button key={option} onClick={() => setSelectedOption(i)} variant={selectedOption === i ? 'default' : 'outline'} className="mb:text-xs py-8 mb-4 mb:mb-1">
                                <div className="flex items-center justify-start gap-2 w-full">
                                   <span className="px-3 py-2 border-2 font-bold rounded-md">{i + 1}</span>
-                                  <p className="font-semibold text-wrap text-left">{option}</p>
+                                  <p className="font-semibold text-wrap text-left text-base mb:text-sm">{option}</p>
                                </div>
                           </Button>
                     })}

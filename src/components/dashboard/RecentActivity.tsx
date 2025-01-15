@@ -17,21 +17,19 @@ export default async function RecentActivity() {
   if(!session?.user) redirect('/')
   const userId = session.user.id
 
-  const user = await db.user.findFirst({where: {OauthId: userId}})
+  const games_count = await db.game.count({where: {userId}})
 
-  const games_count = await db.game.count({where: {userId: user?.id || parseInt(userId)}})
-
-    return <Card className="col-span-4 lg:col-span-3">
+    return <Card className="col-span-4 lg:col-span-3 z-20">
            <CardHeader>
         <CardTitle className="text-2xl font-bold">
           <Link href="/history">Recent Activity</Link>
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-base">
           You have played a total of {games_count} quizzes.
         </CardDescription>
       </CardHeader>
       <CardContent className="max-h-[600px] overflow-y-scroll scrollbar">
-          <HistoryComponent limit={10} userId={user?.id || parseInt(userId)}/>
+          <HistoryComponent limit={10} userId={userId}/>
       </CardContent>
     </Card>
 }

@@ -32,7 +32,7 @@ export default function BlankAnswerInput({answer, setBlankAnswer}: Props) {
     }, [answer, keywords, setBlankAnswer])
 
     return <div className="mt-4">
-            <h3 className="text-xs sm:text-lg">
+            <h3 className="text-sm sm:text-lg">
                 {answerWithBlanks.split(blank).map((part,i) => {
                     return (
                         <Fragment key={i}>

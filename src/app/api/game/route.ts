@@ -17,21 +17,17 @@ export async function POST(req: NextRequest) {
         const session = await getServerAuthSession()
         if(!session?.user) return NextResponse.json({msg: 'Unauthorized'}, {status: 401})
         const userId = session.user.id
-
-         // OR FIND USER WITH ID OR: [{OAUTH}, {ID}] JUST USE user.id
-        const user = await db.user.findFirst({where: {OauthId: userId, OauthProvider: { in: ['GITHUB','GOOGLE']}}})
-        // if(!user) return
-
+    
         const parsedData = await quizCreationSchema.safeParseAsync(await req.json())
         if(!parsedData.success) return NextResponse.json({msg: 'Invalid inputs', errors: parsedData.error.flatten().fieldErrors}, {status: 400})
         const {topic, type, amount, level} = parsedData.data  
 
-        // await new Promise(res => setTimeout(res,3000 * 3))
+        // await new Promise(r => setTimeout(r,9000))
 
         // getQuestions must be called before creating a game in DB
         const questions = await getQuestions(topic,amount,type,level)
 
-        const game = await db.game.create({data: {topic,gameType: type,timeStarted: new Date(),level,userId: user?.id || parseInt(userId)}})
+        const game = await db.game.create({data: {topic,gameType: type,timeStarted: new Date(),level,userId}})
         await db.topic_count.upsert({create: {topic,count: 1}, where: {topic}, update: { count: { increment: 1}}})
 
         await db.question.createMany({
