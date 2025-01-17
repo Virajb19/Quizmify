@@ -7,9 +7,9 @@ import {Home, AlertTriangle } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 const NotFound = () => {
-  return (
+  return ( 
     <div className="flex min-h-screen flex-col">
-      <main className="flex flex-1 flex-col items-center justify-center p-8 text-center">
+      <main className="flex flex-1 flex-col items-center justify-center p-8 text-center z-50">
         <motion.div animate={{ rotate: [0,7,-7,0]}} transition={{ duration: 0.7, repeat: Infinity, repeatDelay: 0.5}}>
            <AlertTriangle className='size-24 text-yellow-500 mb-2'/>
         </motion.div>
