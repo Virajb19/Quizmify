@@ -5,7 +5,7 @@ import { Timer, ArrowRightToLine, Loader2, BarChart  } from "lucide-react";
 import { differenceInSeconds } from 'date-fns'
 import { cn, formatTimeDelta } from '../lib/utils'
 import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, buttonVariants } from "./ui/button";
 import MCQCounter from "./MCQCounter";
 import axios, { AxiosError } from "axios";
@@ -37,6 +37,10 @@ export default function MCQ({game}: Props) {
     // const [isChecking,setIsChecking] = useState<boolean>(false)
 
     const currentQuestion = game.questions[quesIdx]
+
+    const questions = useMemo(() => {
+         return game.questions
+    }, [game])
 
     useEffect(() => {
       const interval = setInterval(() => {

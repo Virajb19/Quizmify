@@ -37,6 +37,8 @@ export default function OpenEnded({game}: Props) {
       return game.questions[quesIdx]
     }, [quesIdx, game.questions])
 
+    const questions = game.questions
+
     const {mutateAsync: checkAnswer, isPending: isChecking} = useMutation({
       mutationFn: async () => {
         let filledAnswer = blankAnswer
