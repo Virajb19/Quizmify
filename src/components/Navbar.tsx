@@ -24,7 +24,7 @@ export default function Navbar() {
                <div id="usericon" className="flex p-1 gap-2 items-center mr-1 md:mr-10">
                 <ThemeToggle />
                { !['/signin', '/signup'].includes(pathname) && 
-               (status === 'loading' ? ( <Loader2 className="mr-1 md:mr-10 animate-spin"/>) : ( isAuth ? <UserAccountNav /> : <Link href={'/signin'} className="bg-blue-900 px-3 py-2 rounded-lg text-lg mr-5 mb:mr-1 text-white">Sign in</Link>))}
+               (status === 'loading' ? ( <Loader2 className="mr-1 md:mr-10 size-8 animate-spin"/>) : ( isAuth ? <UserAccountNav /> : <Link href={'/signin'} className="bg-blue-900 px-3 py-2 rounded-lg text-lg mr-5 mb:mr-1 text-white">Sign in</Link>))}
             </div>
 
         </motion.nav>
