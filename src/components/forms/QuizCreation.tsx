@@ -89,7 +89,7 @@ export default function QuizCreation() {
           return  <div className="relative w-full min-h-screen flex-center overflow-hidden">
             <motion.div initial={{ scale: 0.86, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", bounce: 0.7 }} className="mb:absolute mb:left-5">
 
-             <Card className="mb:w-[90%]">
+             <Card className="mb:w-[90%] shadow-xl shadow-blue-600">
                <CardHeader className="flex-center">
                    <CardTitle className="text-4xl font-bold">Quiz Creation</CardTitle>
                    <CardDescription className="text-xl">Choose a topic</CardDescription>
