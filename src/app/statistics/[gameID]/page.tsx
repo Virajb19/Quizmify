@@ -13,7 +13,7 @@ export default async function StatisticsPage({params: {gameID}}: {params: {gameI
     const session = await getServerAuthSession()
     if(!session?.user) return redirect('/')
 
-    const game = await db.game.findUnique({where: {id: gameID}, include: {questions: true}})
+    const game = await db.game.findUnique({where: {id: gameID, userId: session.user.id}, include: {questions: true}})
     if(!game) return notFound()
 
     let accuracy: number = 0

@@ -8,7 +8,7 @@ export default async function OpenEndedPage({params: {gameID}}: {params: {gameID
     const session = await getServerAuthSession()
     if(!session?.user) redirect('/')
 
-    const game = await db.game.findUnique({where: {id: gameID}, include: {questions: {select: {id: true, question: true, correctAnswer: true}}}})
+    const game = await db.game.findUnique({where: {id: gameID, userId: session.user.id}, include: {questions: {select: {id: true, question: true, correctAnswer: true}}}})
 
     if(!game || game.gameType === 'mcq') return notFound()
 

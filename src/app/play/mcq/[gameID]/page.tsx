@@ -8,7 +8,7 @@ export default async function MCQpage({params: {gameID}}: {params: {gameID: stri
     const session = await getServerAuthSession()
     if(!session?.user) redirect('/')
 
-    const game = await db.game.findUnique({where: {id: gameID}, include: {questions: {select: {id: true, question: true, options: true}}}})
+    const game = await db.game.findUnique({where: {id: gameID, userId: session.user.id}, include: {questions: {select: {id: true, question: true, options: true}}}})
 
     if(!game || game.gameType === 'open_ended') return notFound()
 
