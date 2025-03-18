@@ -185,7 +185,7 @@ export default function QuizCreation() {
                         }
                       }} 
                         ref={buttonRef} disabled={form.formState.isSubmitting} type="submit" whileHover={isPending ? {} : {scale: 1.05}} whileTap={isPending ? {} : {scale: 0.9}}
-                        className="bg-black text-white cursor-pointer dark:bg-white dark:text-black rounded-lg text-lg font-semibold w-fit py-1 px-3 flex items-center gap-2 mx-auto mt-10 disabled:opacity-60 disabled:cursor-not-allowed">
+                        className="bg-black text-white cursor-pointer dark:bg-white dark:text-black rounded-lg text-lg font-semibold w-fit text-center py-1 px-3 flex items-center gap-2 mx-auto mt-10 disabled:opacity-60 disabled:cursor-not-allowed">
                         {form.formState.isSubmitting ? (
                             <>
                               <Loader2 className="animate-spin"/> Please wait

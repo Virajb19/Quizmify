@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { redirect } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import { getServerAuthSession } from "~/server/auth"
 import { db } from "~/server/db"
 import { LucideLayoutDashboard } from 'lucide-react'
@@ -14,7 +14,7 @@ export default async function StatisticsPage({params: {gameID}}: {params: {gameI
     if(!session?.user) return redirect('/')
 
     const game = await db.game.findUnique({where: {id: gameID}, include: {questions: true}})
-    if(!game) return redirect('/')
+    if(!game) return notFound()
 
     let accuracy: number = 0
 
@@ -25,7 +25,7 @@ export default async function StatisticsPage({params: {gameID}}: {params: {gameI
     },0)
 
     accuracy = ( totalCorrect / game.questions.length) * 100
- } else if(game.gameType === 'open_ended') {
+  } else if(game.gameType === 'open_ended') {
        let totalPercentage = game.questions.reduce((acc,question) => {
          return acc + (question.percentageCorrect ?? 0)
        }, 0)

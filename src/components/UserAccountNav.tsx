@@ -21,7 +21,7 @@ export default function UserAccountNav() {
                     <DropdownMenuTrigger>
                         <UserAvatar />
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className='m-2 min-w-44 z-[99999] rounded-md bg-neutral-100 dark:bg-neutral-900' align='center'> 
+                    <DropdownMenuContent className='m-2 min-w-44 z-[99999] rounded-md bg-neutral-100 border-[2.5px] border-blue-600 font-semibold dark:bg-neutral-900' align='center'> 
                      <DropdownMenuItem>
                         <div className='flex flex-col'>
                             {user?.name && <p className='text-base'>{user.name}</p>}

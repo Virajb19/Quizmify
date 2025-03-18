@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import MCQ from "~/components/MCQ"
 import { getServerAuthSession } from "~/server/auth"
 import { db } from "~/server/db"
@@ -10,7 +10,9 @@ export default async function MCQpage({params: {gameID}}: {params: {gameID: stri
 
     const game = await db.game.findUnique({where: {id: gameID}, include: {questions: {select: {id: true, question: true, options: true}}}})
 
-    if(!game || game.gameType === 'open_ended') redirect('/quiz')
+    if(!game || game.gameType === 'open_ended') return notFound()
+
+    if(game.timeEnded) return redirect('/quiz')
 
     return <MCQ game={game}/>
 

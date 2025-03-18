@@ -1,9 +1,19 @@
 import { google } from '@ai-sdk/google';
+import { GameType, Level } from '@prisma/client';
 import { generateText } from 'ai';
+import { z } from 'zod'
 
-export async function getQuestions(topic: string, amount: number, type: "mcq" | "open_ended", level: "easy" | "medium" | "hard") {
+const questionSchema = z.object({
+  question: z.string(),
+  answer: z.string(),
+  options: z.array(z.string()).optional()
+})
+
+type Question = z.infer<typeof questionSchema>
+
+export async function getQuestions(topic: string, amount: number, type: GameType, level: Level) {
       try {
-        let questions: any
+        let questions: Question[] = []
 
         if (type === "open_ended") {
             questions = await generateQuestions(
@@ -25,10 +35,11 @@ export async function getQuestions(topic: string, amount: number, type: "mcq" | 
 
       } catch(err) {
         console.error('Error getting questions',err)
+        throw new Error('Error getting questions')
       }
 } 
 
-export async function generateQuestions(system_prompt: string,user_prompt: string | string[]){
+export async function generateQuestions(system_prompt: string,user_prompt: string | string[]) {
    try {
 
     const { text } = await generateText({
@@ -48,10 +59,13 @@ export async function generateQuestions(system_prompt: string,user_prompt: strin
  
           const cleanData = text.replace(/```json\s*|\s*```/g, '').trim(); 
           const questions = JSON.parse(cleanData)
-          return questions
+          const result = questionSchema.array().safeParse(questions)
+          if(!result.success) throw new Error(`Invalid AI response: ${result.error.flatten().fieldErrors}`)
+          return result.data
 
    } catch(err) {
        console.error('Error generating questions', err)
+       throw new Error('Error generating questions')
    }
 }
 

@@ -9,8 +9,8 @@ https://github.com/user-attachments/assets/571043e4-156d-4775-9f83-344bb4fd6f4b
 **1.Clone the repo**
 
 ```bash 
-git clone https://github.com/Virajb19/GitChat 
-cd GitChat
+git clone https://github.com/Virajb19/Quizmify 
+cd Quizmify
 ```
 
 **2. Install pnpm and then dependencies**

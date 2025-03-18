@@ -4,12 +4,11 @@ import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
 import { getQuestions } from "~/lib/getQuestions";
 
-type Question = {
-  question: string,
-  answer: string
-  options?: string[]
-}
-
+// type Question = {
+//   question: string,
+//   answer: string
+//   options?: string[]
+// }
 
 export async function POST(req: NextRequest) {
     try {
@@ -31,7 +30,7 @@ export async function POST(req: NextRequest) {
         await db.topic_count.upsert({create: {topic,count: 1}, where: {topic}, update: { count: { increment: 1}}})
 
         await db.question.createMany({
-            data: questions.map((question: Question) => {
+            data: questions.map((question) => {
 
                 if(question.options) {
                     question.options.sort(() => Math.random() - 0.5)
@@ -50,7 +49,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({msg: 'Quiz game generated successfully',gameId: game.id}, {status: 200})
 
     } catch(err) {
-        console.error(err)
+        console.error('Error creating the game',err)
         return NextResponse.json({msg: 'Error creating the game'}, { status: 500})
     }
 }
@@ -71,7 +70,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({game}, {status: 200})
 
    } catch(err) {
-      console.error(err)
+      console.error('Error getting the game',err)
       return NextResponse.json({msg: 'Error getting game'}, {status: 500})
    }
 }
