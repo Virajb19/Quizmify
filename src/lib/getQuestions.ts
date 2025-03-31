@@ -17,7 +17,7 @@ export async function getQuestions(topic: string, amount: number, type: GameType
 
         if (type === "open_ended") {
             questions = await generateQuestions(
-              "You are a helpful AI that is able to generate a pair of question and answers, the length of each answer should not be more than 15 words, store all the pairs of answers and questions in a JSON array.Do not put quotation marks just a array of objects.",
+              "You are a helpful AI that is able to generate a pair of question and answers, the length of each answer should not be more than 15 words, store all the pairs of answers and questions in a JSON array.Do not put quotation marks just a array of objects.Do not write anything else just simply provide questions and answers in the told format",
                amount === 1 
                ? `Generate one open-ended question about ${topic} with ${level} difficulty. Only provide one question as a JSON array of one object.` 
                : `You are to generate a random open-ended ${amount} questions about ${topic} with ${level} difficulty`,

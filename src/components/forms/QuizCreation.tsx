@@ -20,6 +20,7 @@ import { useRouter } from "nextjs-toploader/app";
 import { toast as Toast } from 'sonner'
 import { useRef, useState } from "react";
 import LoadingQuestions from "../LoadingQuestions";
+import { validateWordWithGemini } from "~/server/actions";
 
 type Input = z.infer<typeof quizCreationSchema>
 
@@ -46,6 +47,12 @@ export default function QuizCreation() {
    })
 
   async function onSubmit(data: Input) {
+
+    const isValid = await validateWordWithGemini(data.topic)
+    if(!isValid) {
+      form.setError('topic', { message: 'Topic is not a valid word'})
+      return 
+    }
 
     setShowLoader(true)
 
@@ -110,7 +117,7 @@ export default function QuizCreation() {
                       Please provide any topic you would like to be quizzed on
                       here.
                     </FormDescription>
-                    <FormMessage />
+                    <FormMessage className="text-red-600"/>
                   </FormItem>
                 )}
               />

@@ -118,11 +118,11 @@ export const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: 'jwt',
-    maxAge: 2 * 24 * 60 * 60
+    maxAge: 15 * 24 * 60 * 60
   },
   jwt: {
     secret: process.env.AUTH_SECRET || 'secret',
-    maxAge: 60 * 60
+    maxAge: 60 * 60 * 24 
   },
   pages: {
     signIn: '/signin'
