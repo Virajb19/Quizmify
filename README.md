@@ -2,7 +2,7 @@
 
 Quizmify is an AI-powered web app where you generate quizzes
 
-https://github.com/user-attachments/assets/da05d4dc-5930-4a26-9db2-063dc95c1947
+https://github.com/user-attachments/assets/886b7320-cab9-48bd-b15a-430fb97daa3c
 
 ## How to run locally ?
 
