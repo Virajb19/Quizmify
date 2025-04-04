@@ -57,7 +57,7 @@ const responseSchema = z.enum(['yes', 'no'])
 
 export async function validateWordWithGemini(topic: string): Promise<boolean> {
     try {
-      const prompt = `Is '${topic}' a valid English word? Respond with 'yes' or 'no' only.`
+      const prompt = `Is '${topic}' a meaningFul topic to create a quiz on? Respond with 'yes' or 'no' only.`
       const { response } = await model.generateContent([prompt])
       const answer = response.text().trim().toLowerCase()
       const result = responseSchema.safeParse(answer)
