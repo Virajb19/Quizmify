@@ -6,6 +6,8 @@ import { db } from "~/server/db"
 import { z } from 'zod'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { getServerAuthSession } from "./auth"
+import { groq } from "@ai-sdk/groq";
+import { generateText } from "ai"
 
 type formData = z.infer<typeof SignUpSchema>
 
@@ -58,8 +60,23 @@ const responseSchema = z.enum(['yes', 'no'])
 export async function validateWordWithGemini(topic: string): Promise<boolean> {
     try {
       const prompt = `Is '${topic}' a meaningFul topic to create a quiz on? Respond with 'yes' or 'no' only.`
-      const { response } = await model.generateContent([prompt])
-      const answer = response.text().trim().toLowerCase()
+      // const { response } = await model.generateContent([prompt])
+      const { text } = await generateText({
+      model: groq("llama-3.1-8b-instant") as any,
+      temperature: 0, // important for deterministic yes/no
+      messages: [
+        {
+          role: "system",
+          content:
+            'You are a strict validator. Respond with exactly "yes" or "no". Do not add any other text.',
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    })
+      const answer = text.trim().toLowerCase()
       const result = responseSchema.safeParse(answer)
       if(!result.success) throw new Error('Invalid answer')
       return result.data === 'yes'

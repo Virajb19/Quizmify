@@ -2,6 +2,7 @@ import { google } from '@ai-sdk/google';
 import { GameType, Level } from '@prisma/client';
 import { generateText } from 'ai';
 import { z } from 'zod'
+import { groq } from "@ai-sdk/groq";
 
 const questionSchema = z.object({
   question: z.string(),
@@ -39,21 +40,22 @@ export async function getQuestions(topic: string, amount: number, type: GameType
       }
 } 
 
-export async function generateQuestions(system_prompt: string,user_prompt: string | string[]) {
+
+export async function generateQuestions(system_prompt: string, user_prompt: string | string[]) {
    try {
 
     const { text } = await generateText({
                 temperature: 1,
-                model: google('gemini-1.5-flash'),
+                model: groq('llama-3.1-8b-instant') as any,
                 messages: [
-                  {
-                      role: 'user',
-                      content: user_prompt.toString()
-                  },
-                  {
-                      role: 'assistant',
-                      content: system_prompt
-                  }
+                   {
+                      role: "system",
+                      content: `${SYSTEM_JSON_RULE}\n\n${system_prompt}`,
+                   },
+                    {
+                      role: "user",
+                      content: user_prompt.toString(),
+                    },
                 ],
           })
  
@@ -68,4 +70,25 @@ export async function generateQuestions(system_prompt: string,user_prompt: strin
        throw new Error('Error generating questions')
    }
 }
+
+const SYSTEM_JSON_RULE = `
+You are a JSON generator.
+
+Rules:
+- Output MUST be valid JSON
+- Output MUST be a JSON array
+- Do NOT include markdown
+- Do NOT include explanations
+- Do NOT include text outside JSON
+- If you cannot comply, output an empty JSON array []
+
+Example:
+[
+  {
+    "question": "Example question?",
+    "answer": "Example answer",
+    "options": ["A", "B", "C"]
+  }
+]
+`;
 
